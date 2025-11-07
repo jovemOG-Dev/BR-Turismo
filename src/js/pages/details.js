@@ -14,7 +14,7 @@ const MOCK_PACKAGE_DETAILS = [
         title: 'Praias do Nordeste: Maceió Fantástica',
         description: 'Maceió é famosa por suas praias urbanas, piscinas naturais de Pajuçara e a culinária alagoana. Este pacote de 7 dias e 6 noites inclui passagens aéreas, transfer e hospedagem no Hotel Ponta Verde. Desfrute de um passeio de jangada até as piscinas naturais.',
         price: 1899.90,
-        imageUrl: '/src/assets/images/mock/maceio-details.jpg',
+        imageUrl: '../../assets/images/mock/maceio-details.jpg',
         rating: 4.5,
         location: 'Maceió, AL',
         details: {
@@ -27,7 +27,7 @@ const MOCK_PACKAGE_DETAILS = [
         title: 'Recife: História e Praias',
         description: 'Recife e Olinda oferecem um mergulho na história colonial e praias urbanas vibrantes. Este pacote foca na cultura e inclui 4 dias de estadia em Boa Viagem, com city tour guiado pelo Recife Antigo e Olinda, Patrimônio da Humanidade.',
         price: 980.50,
-        imageUrl: '/src/assets/images/mock/recife-details.jpg',
+        imageUrl: '../../assets/images/mock/recife-details.jpg',
         rating: 4.1,
         location: 'Recife, PE',
         details: {
