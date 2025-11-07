@@ -1,0 +1,115 @@
+/**
+ * 🎨 Componente Form (Inputs e Estrutura de Formulário)
+ * Arquivo: src/css/components/form.css
+ * Estratégia: Inputs claros, foco A11y, feedback de validação.
+ */
+
+/* --- Configuração Base de Inputs --- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+textarea,
+select {
+    display: block;
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    background-clip: padding-box;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+/* Placeholder Styling */
+::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1; /* Padrão em navegadores antigos */
+}
+
+/* Focus State Acessível */
+input:focus, textarea:focus, select:focus {
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    border-color: color-mix(in srgb, var(--color-brand-primary) 80%, white);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-brand-primary) 25%, white);
+}
+
+/* Estrutura Básica de Agrupamento */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+}
+
+/* --- Feedback de Validação (JS controlará estas classes) --- */
+/* Input Válido */
+.is-valid {
+    border-color: var(--color-success);
+    padding-right: 2.25rem; /* Espaço para ícone de sucesso */
+    /* ... Estilo para ícone de sucesso a ser implementado ... */
+}
+.is-valid:focus {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-success) 25%, white);
+}
+
+/* Input Inválido */
+.is-invalid {
+    border-color: var(--color-danger);
+    padding-right: 2.25rem; /* Espaço para ícone de erro */
+}
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-danger) 25%, white);
+}
+
+.invalid-feedback {
+    display: none; /* Exibido via JS quando o campo é .is-invalid */
+    width: 100%;
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-small);
+    color: var(--color-danger);
+}
+
+.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* --- Estilo Específico do Formulário de Busca (Home) --- */
+/* Mobile: Inputs empilhados verticalmente */
+.search-form-component {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md); /* Espaçamento entre campos */
+    padding: var(--space-lg);
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente para destaque */
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Desktop: Inputs em linha (flex wrap) */
+@media (min-width: 768px) {
+    .search-form-component {
+        flex-direction: row;
+        flex-wrap: nowrap; /* Não quebra linha, se possível */
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+    }
+    
+    .search-form-component .form-group {
+        flex-grow: 1; /* Faz os campos de input crescerem igualmente */
+        margin-bottom: 0;
+    }
+    
+    .search-form-component .btn-lg {
+        flex-shrink: 0; /* Impede o botão de encolher */
+        height: 100%; /* Ajusta a altura para ficar lado a lado com os inputs */
+        /* Ajuste fino para a altura do botão no desktop */
+        align-self: stretch; 
+    }
+}

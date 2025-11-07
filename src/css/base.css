@@ -1,0 +1,130 @@
+/**
+ * 🎨 BR Turismo Design System - Tokens (CSS Custom Properties)
+ * Arquivo: src/css/base.css
+ * Responsabilidade: UI Designer / Design System
+ */
+
+/* ========================================================= */
+/* 1. TOKENS GLOBAIS (:ROOT) */
+/* ========================================================= */
+
+:root {
+    /* --- Cores Primárias (Brand - Exemplo BR Turismo) --- */
+    --color-brand-primary: #0D9488;     /* Teal Vibrante - Ação Principal (Antigo: #007bff) */
+    --color-brand-secondary: #f43f5e;   /* Rosa/Magenta - Para Destaques/Promoções (Complemento) */
+
+    /* --- Cores de Feedback / Sistema --- */
+    ---color-success: #10b981;           /* Verde mais moderno */
+    --color-danger: #dc3545;            /* Vermelho (Padrão) */
+    --color-warning: #f59e0b;           /* Amarelo/Laranja (Atenção) */
+    --color-info: #3b82f6;
+
+    /* --- Cores Neutras / Escala de Cinza (Acessibilidade WCAG AA) --- */
+    --color-text-primary: #1f2937;      /* Texto principal (quase preto) */
+    --color-text-secondary: #6b7280;    /* Texto de apoio (Cinza médio) */
+    --color-background-base: #ffffff;   /* Fundo Principal (Simulando bg-white) */
+    --color-background-light: #f9fafb;  /* Fundo de seções/Cards (Simulando bg-gray-50) */
+    --color-border: #e5e7eb;            /* Cor de Bordas (Simulando gray-200) */
+    --color-white: #ffffff;
+
+    /* --- Tipografia (Fontes Padrão da Web, conforme solicitado) --- */
+    --font-family-base: 'Inter', system-ui, sans-serif;
+    --font-size-base: 1rem;
+    --line-height-base: 1.5;
+
+    /* Escala Tipográfica */
+    --font-size-h1: 2.5rem;
+    --font-size-h2: 2rem;
+    --font-size-h3: 1.75rem;
+    --font-size-h4: 1.5rem;
+    --font-size-small: 0.875rem;
+
+    /* --- Espaçamento (Escala 4x) --- */
+    --space-xs: 0.25rem; /* 4px */
+    --space-sm: 0.5rem;  /* 8px */
+    --space-md: 1rem;    /* 16px */
+    --space-lg: 1.5rem;  /* 24px */
+    --space-xl: 3rem;    /* 48px */
+    --space-xxl: 5rem;   /* 80px */
+
+    /* --- Outros (Bordas, Sombras, Transições) --- */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --transition-speed: 0.3s;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ========================================================= */
+/* 2. CSS RESET BÁSICO E REGRAS GLOBAIS */
+/* ========================================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-background-base);
+    -webkit-text-size-adjust: 100%; /* Fix Mobile Zoom */
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family-base);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Tipografia Básica (Usando tokens) */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+
+p {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+}
+
+/* Links Acessíveis */
+a {
+    color: var(--color-brand-primary);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover, a:focus {
+    color: var(--color-brand-secondary);
+    text-decoration: underline;
+    outline: 2px solid var(--color-brand-primary); /* Foco para acessibilidade */
+    outline-offset: 2px;
+}
+
+/* Elementos de Acessibilidade (Visually Hidden) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.container {
+    max-width: 1200px; /* Largura máxima padrão para o layout */
+    margin: 0 auto;    /* CENTRALIZA horizontalmente */
+    padding: 0 var(--space-md); /* Padding lateral em todos os breakpoints */
+}

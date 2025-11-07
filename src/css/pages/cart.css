@@ -1,0 +1,152 @@
+/**
+ * 🎨 Estilos Específicos da Página Carrinho (cart.html)
+ * Arquivo: src/css/pages/cart.css
+ * Estratégia: Layout de duas colunas (Lista + Resumo), Mobile-First.
+ */
+
+/* ========================================================= */
+/* 1. Layout Principal (Mobile: Pilha) */
+/* ========================================================= */
+.cart-layout {
+    padding: var(--space-xl) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+/* Container de Itens do Carrinho */
+#cart-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* Mensagem de Carrinho Vazio */
+#empty-cart-message {
+    text-align: center;
+    padding: var(--space-xl);
+    border: 1px dashed var(--color-border);
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+}
+
+/* ========================================================= */
+/* 2. Estilo do Item Individual (Item CartItem) */
+/* ========================================================= */
+.cart-item {
+    display: grid;
+    /* Colunas Mobile: Imagem | Detalhes/Ações | Preço */
+    grid-template-columns: 80px 1fr; 
+    grid-template-areas: 
+        "image details"
+        "image pricing"
+        "actions actions"; /* Ações na linha completa no mobile */
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: var(--color-background-base);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-xs);
+}
+
+.item-image { grid-area: image; }
+.item-details { grid-area: details; }
+.item-pricing { grid-area: pricing; }
+.item-actions { 
+    grid-area: actions; 
+    text-align: right;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--color-border);
+}
+
+.item-image img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+}
+
+.item-details h3 {
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-base);
+    line-height: 1.2;
+}
+
+.item-metadata {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.item-total-price {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+}
+
+.price-per-person {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+}
+
+/* ========================================================= */
+/* 3. Sidebar de Resumo (Preços) */
+/* ========================================================= */
+#cart-summary-sidebar {
+    background-color: var(--color-background-light);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-xs) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--font-size-base);
+}
+
+.summary-line.total {
+    border-top: 2px solid var(--color-text-primary);
+    border-bottom: none;
+    font-size: var(--font-size-h4);
+    font-weight: bold;
+    color: var(--color-brand-primary);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+}
+
+/* ========================================================= */
+/* 4. Layout Desktop (min-width: 992px) */
+/* ========================================================= */
+@media (min-width: 992px) {
+    .cart-layout {
+        flex-direction: row;
+        /* Colunas: Itens (2/3) | Resumo (1/3) */
+        display: grid;
+        grid-template-columns: 2fr 1fr; 
+        gap: var(--space-xl);
+    }
+    
+    /* Grid de Item Desktop */
+    .cart-item {
+        grid-template-columns: 80px 1fr 150px 100px; /* Mais colunas para preço/ações */
+        grid-template-areas: "image details pricing actions";
+        align-items: center;
+        gap: var(--space-md);
+    }
+
+    .item-pricing {
+        /* Centraliza no grid */
+        text-align: right; 
+    }
+    
+    .item-actions {
+        /* Alinha no grid */
+        text-align: center;
+        padding-top: 0;
+        border-top: none;
+    }
+}

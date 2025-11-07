@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BR Turismo</title>
+
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/form.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+    <link rel="icon" type="image/png" href="/src/assets/images/icon.png">
+
+    <link rel="stylesheet" href="/src/css/pages/login.css">
+</head>
+
+<body>
+
+    <header class="header-component">
+        <div class="container">
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <ul id="main-nav-list">
+                    <li class="nav-item-active"><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Login
+            </a>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container" style="max-width: 500px; padding: 4rem 0;">
+            <h1 class="text-center" style="margin-bottom: 2rem;">Acesse sua Conta</h1>
+            
+            <div class="auth-card-wrapper"> 
+                <form id="login-form" class="auth-form-component">
+                    
+                    <div class="input-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" name="password" placeholder="Mínimo 8 caracteres" required>
+                    </div>
+                    
+                    <p id="login-error" class="invalid-feedback" style="display: none;"></p>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-full">
+                        Entrar
+                    </button>
+                    
+                    <p class="text-center" style="margin-top: 1rem;">
+                        Não tem conta? 
+                        <a href="register.html" class="link-primary">Cadastre-se agora</a>
+                    </p>
+                    
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer class="footer-component">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script type="module" src="/src/js/pages/login.js"></script>
+</body>
+
+</html>

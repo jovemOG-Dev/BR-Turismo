@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Detalhes do Pacote | BR Turismo</title>
+    
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/form.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+
+    <link rel="stylesheet" href="/src/css/pages/details.css"> 
+</head>
+<body>
+    
+    <header class="header-component">
+        <div class="container">
+            <a href="index.html" class="logo-placeholder" aria-label="BR Turismo - Página Inicial">BR TURISMO</a>
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <button id="menu-toggle" class="icon-btn" aria-controls="main-nav-list">
+                    ☰<span class="sr-only">Abrir Menu</span>
+                </button>
+                <ul id="main-nav-list" role="menu">
+                    <li role="none"><a role="menuitem" href="results.html">Pacotes</a></li>
+                    <li role="none"><a role="menuitem" href="login.html">Login</a></li>
+                    <li role="none"><a role="menuitem" href="cart.html">Carrinho</a></li>
+                    <li role="none" id="nav-admin-link" style="display: none;"><a role="menuitem" href="admin-panel.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="package-details-main">
+        <div class="container">
+            <section id="package-info" aria-labelledby="package-title">
+                
+                <div class="details-header">
+                    <h1 id="package-title">Carregando Pacote...</h1>
+                    <div id="package-rating" class="rating-display"></div>
+                </div>
+
+                <div class="main-image-wrapper">
+                    <img id="package-main-image" src="" alt="Imagem de Destino" width="1000" height="600" loading="eager">
+                </div>
+
+                <div class="details-layout">
+                    
+                    <article id="package-content">
+                        
+                        <h2>Sobre o Destino e o Pacote</h2>
+                        <p id="package-description" class="lead-description"></p>
+                        
+                        <h3>Inclusões e Roteiro</h3>
+                        <ul id="package-inclusions" class="inclusions-list">
+                            <li>✈️ Aéreo de Ida e Volta (Simulado)</li>
+                            <li>🏨 3 Noites de Hospedagem (Simulado)</li>
+                            </ul>
+
+                        <h3>Avaliações de Clientes (Mock)</h3>
+                        <div id="customer-reviews">
+                            <p>⭐⭐⭐⭐⭐ "Viagem inesquecível! Recomendo." - Cliente A</p>
+                            <p>⭐⭐⭐⭐☆ "Hotel bom, mas o aéreo atrasou um pouco." - Cliente B</p>
+                        </div>
+                    </article>
+
+                    <aside id="booking-sidebar" aria-label="Opções de Reserva">
+                        <div class="price-box">
+                            <p class="starting-price">A partir de</p>
+                            <span id="package-price" class="price-highlight">R$ 0,00</span>
+                        </div>
+                        
+                        <form id="booking-form">
+                            <div class="form-group">
+                                <label for="booking-date">Data da Viagem:</label>
+                                <input type="date" id="booking-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelers-count">Número de Viajantes:</label>
+                                <input type="number" id="travelers-count" min="1" value="1" required>
+                            </div>
+                            
+                            <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$ 0,00</strong></p>
+                            
+                            <button type="submit" id="add-to-cart-btn" class="btn btn-primary btn-block">
+                                Adicionar ao Carrinho
+                            </button>
+
+                            <p class="disclaimer-text">
+                                ⚠️ Reserva simulada. Nenhum pagamento real será processado.
+                            </p>
+                        </form>
+                    </aside>
+                </div>
+
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer-component">
+        </footer>
+
+    <script type="module">
+        import { setupMenuToggle } from '/src/js/components/menu-toggle.js'; 
+        import { initDetailsPage } from '/src/js/pages/details.js'; // Novo Módulo
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();      
+            initDetailsPage();      // Inicia a busca do Pacote por ID na URL
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/* src/css/pages/admin-panel.css */
+/**
+ * 🎨 Estilos Específicos da Página Painel Admin (admin-panel.html)
+ * Este arquivo herda a estrutura de layout e estilos de tabela de 'user-panel.css'
+ * para manter a consistência visual.
+ */
+
+/* Estilos de badge e tabela já estão definidos no user-panel.css */
+
+/* Estilos adicionais para botões de ação críticas */
+.header-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#panel-sidebar #logout-btn {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: var(--color-white);
+}
+
+#panel-sidebar #logout-btn:hover {
+    background-color: color-mix(in srgb, var(--color-danger) 85%, black);
+}

@@ -1,0 +1,158 @@
+/**
+ * 🎨 Estilos Específicos da Página Home / Landing (index.html)
+ * Arquivo: src/css/pages/home.css
+ * Estratégia: Mobile-First, Foco na Área de Busca (Hero)
+ */
+
+/* Container Centralizador (reutilizável) */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md); /* Padding lateral em todos os breakpoints */
+}
+
+/* --- 1. Seção de Busca Principal (Hero) --- */
+#hero-search {
+    position: relative;
+    /* Imagem de Praia com Overlay Escuro */
+    background: url('/src/assets/images/landingimg.jpg') center/cover;
+    color: var(--color-white);
+    padding: 6rem 0;
+    min-height: 70vh; 
+    /* Garante que o conteúdo fique no centro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.hero-content {
+    max-width: 900px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-content h1 {
+    /* Novo estilo de Título: Grande e Impactante */
+    font-size: clamp(2.5rem, 5vw, 3.5rem); 
+    font-weight: 900; /* Extra Bold */
+    margin-bottom: var(--space-md);
+    line-height: 1.1;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hero-content p {
+    font-size: clamp(1rem, 2vw, 1.25rem); /* Subtítulo */
+    line-height: 1.5;
+    margin-bottom: var(--space-xl);
+    max-width: 700px;
+    font-weight: 300;
+}
+
+/* Formulário de Busca - MANTIDO ESTILOS DE FORM.CSS, APENAS LAYOUT */
+.hero-search-form {
+    display: flex;
+    flex-direction: column; /* Mobile: Pilha */
+    gap: var(--space-sm);
+    width: 100%;
+    max-width: 700px; 
+    padding: var(--space-md); /* Fundo branco/claro do form.css dará contraste */
+}
+
+@media (min-width: 768px) {
+    .hero-search-form {
+        flex-direction: row; /* Desktop: em linha */
+        gap: var(--space-xs);
+        padding: var(--space-sm);
+    }
+    
+    .hero-search-form .input-group {
+        flex: 1; /* Inputs ocupam o mesmo espaço */
+    }
+    
+    .hero-search-form .btn {
+        width: 150px; /* Botão de busca tem largura fixa */
+        flex-shrink: 0;
+    }
+}
+
+/* --- Ajuste do Formulário de Busca no Hero --- */
+/* Sobrescreve o estilo base do form-component para o Hero */
+#main-search-form {
+    max-width: 90%;
+    margin: var(--space-x2) auto 0; /* Centraliza */
+    background-color: rgba(255, 255, 255, 0.95);
+    /* Retiramos as sombras para dar um ar mais limpo no destaque */
+    box-shadow: none; 
+}
+
+/* Estilo para inputs dentro do formulário do Hero */
+#main-search-form input, #main-search-form select {
+    background-color: var(--color-white);
+    border-color: var(--color-border);
+}
+
+/* --- 2. Seção de Destaques/Promoções --- */
+#featured-promos {
+    padding: var(--space-x1) 0;
+}
+
+#featured-promos h2 {
+    text-align: center;
+    margin-bottom: var(--space-x1);
+    color: var(--color-text-primary);
+}
+
+.promo-grid {
+    display: grid;
+    /* Mobile: 1 coluna por padrão */
+    grid-template-columns: 1fr; 
+    gap: var(--space-lg);
+}
+
+/* --- Layout Tablet/Desktop --- */
+@media (min-width: 600px) {
+    #hero-search h1 {
+        font-size: var(--font-size-h1); /* Tamanho maior no desktop */
+    }
+    
+    .promo-grid {
+        /* Tablet: 2 colunas */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .promo-grid {
+        /* Desktop: 3 colunas */
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- 3. Seção de Newsletter --- */
+#newsletter {
+    padding: var(--space-xl) 0;
+    text-align: center;
+    background-color: var(--color-background-light);
+}
+
+#newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+@media (min-width: 600px) {
+    #newsletter-form {
+        flex-direction: row;
+        gap: var(--space-sm);
+    }
+    #newsletter-form input {
+        flex-grow: 1;
+    }
+}

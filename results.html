@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Busca | BR Turismo</title>
+
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/form.css">
+    <link rel="stylesheet" href="/src/css/components/card.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+    <link rel="icon" type="image/png" href="/src/assets/images/icon.png">
+    <link rel="stylesheet" href="/src/css/pages/results.css">
+</head>
+
+<body>
+
+    <header class="header-component">
+        <div class="container">
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <ul id="main-nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li class="nav-item-active"><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Login
+            </a>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container results-layout">
+
+            <aside id="filters-sidebar" aria-label="Filtros de Pesquisa">
+                <div class="filter-header">
+                    <h2>Filtros</h2>
+                    <button id="close-filters" class="icon-btn">✕<span class="sr-only">Fechar Filtros</span></button>
+                </div>
+
+                <form id="filter-form">
+                    <fieldset class="form-group">
+                        <legend>Faixa de Preço (R$)</legend>
+                        <div class="input-group">
+                            <label for="price-min">Mínimo:</label>
+                            <input type="number" id="price-min" name="price-min" min="0" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="price-max">Máximo:</label>
+                            <input type="number" id="price-max" name="price-max" min="0" value="5000">
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <legend>Duração</legend>
+                        <label><input type="checkbox" name="duration" value="3"> 3 dias</label>
+                        <label><input type="checkbox" name="duration" value="5"> 5 a 7 dias</label>
+                        <label><input type="checkbox" name="duration" value="7"> Mais de 7 dias</label>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary btn-block">Aplicar Filtros</button>
+                </form>
+            </aside>
+
+            <section id="search-results-area" aria-labelledby="results-summary">
+
+                <div id="filter-mobile-bar">
+                    <div class="search-summary" id="results-summary">
+                        <strong id="result-count">0</strong> Pacotes Encontrados
+                    </div>
+                    <button id="open-filters" class="btn btn-secondary icon-btn">
+                        <span class="sr-only">Abrir Filtros</span>
+                        <span aria-hidden="true">Filtros</span>
+                    </button>
+                </div>
+
+                <div id="results-list" class="results-grid">
+                    <p aria-live="polite">Buscando pacotes...</p>
+                </div>
+
+                <nav id="pagination-nav" aria-label="Navegação de Página">
+                </nav>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer-component">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/components/menu-toggle.js"></script>
+    <script type="module" src="/src/js/pages/results.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+/**
+ * 🎨 Componente Button (Botões)
+ * Arquivo: src/css/components/button.css
+ * Estratégia: Estilos base para todos, variantes para cores, foco A11y.
+ */
+
+/* --- Estilo Base (Aplicado à classe .btn) --- */
+.btn {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+    border: 1px solid transparent; /* Para evitar pulo visual ao mudar de cor */
+}
+
+/* Foco de Acessibilidade (WCAG AA) */
+.btn:focus {
+    outline: none; /* Remove o outline padrão do browser */
+    box-shadow: 0 0 0 4px var(--color-background-base), 0 0 0 6px var(--color-brand-primary);
+}
+
+/* Estado Desabilitado */
+.btn:disabled, .btn[aria-disabled="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+
+/* --- Variação Primária (Ação Principal) --- */
+.btn-primary {
+    color: var(--color-white);
+    background-color: var(--color-brand-primary);
+    border-color: var(--color-brand-primary);
+}
+
+.btn-primary:hover {
+    background-color: color-mix(in srgb, var(--color-brand-primary) 85%, black); /* Escurece um pouco */
+    border-color: color-mix(in srgb, var(--color-brand-primary) 85%, black);
+    text-decoration: none;
+}
+
+/* --- Variação Secundária (Ação de Apoio) --- */
+.btn-secondary {
+    color: var(--color-text-primary);
+    background-color: var(--color-background-light);
+    border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--color-background-light) 90%, black);
+    border-color: color-mix(in srgb, var(--color-border) 90%, black);
+    text-decoration: none;
+}
+
+/* --- Variação de Tamanho Grande (CTAs grandes) --- */
+.btn-lg {
+    padding: var(--space-md) var(--space-lg);
+    font-size: 1.125rem; /* Um pouco maior que o base */
+    border-radius: var(--border-radius-md);
+}
+
+/* --- Variação de Link (Botão com aparência de Link) --- */
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--color-brand-primary);
+    padding: var(--space-xs);
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}

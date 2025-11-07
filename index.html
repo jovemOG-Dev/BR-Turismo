@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <title>Home | BR Turismo</title>
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/form.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/card.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+    <link rel="stylesheet" href="/src/css/pages/home.css">
+    <link rel="icon" type="image/png" href="/src/assets/images/icon.png">
+</head>
+
+<body>
+
+    <header class="header-component">
+        <div class="container">
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <ul id="main-nav-list">
+                    <li class="nav-item-active"><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Login
+            </a>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero-search">
+            <div class="hero-content">
+
+                <h1>Descubra o Brasil com a BR-Turismo</h1>
+
+                <p>Encontre os melhores pacotes de viagem, hotéis e passagens aéreas. Destinos nacionais imperdíveis,
+                    com preços que cabem no seu bolso.</p>
+
+                <form id="main-search-form" class="search-form-component">
+
+                    <div class="input-group">
+                        <label for="search-destination" class="sr-only">Destino</label>
+                        <input type="text" id="search-destination" name="destination"
+                            placeholder="Para onde você quer ir?" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="search-origin" class="sr-only">Origem</label>
+                        <select id="search-origin" name="origin">
+                            <option value="">Origem (Simulação)</option>
+                            <option value="saopaulo">São Paulo</option>
+                            <option value="rio">Rio de Janeiro</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Buscar Pacotes
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="featured-packages" class="container">
+
+            <h2>Promoções Imperdíveis</h2>
+            <p class="section-subtitle">Pacotes de última hora e ofertas exclusivas por tempo limitado.</p>
+
+            <div class="package-grid promo-grid">
+            </div>
+
+            <div class="see-all-packages-btn">
+                <a href="results.html" class="btn btn-secondary btn-lg">
+                    Ver Todos os Pacotes
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer-component">
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/components/menu-toggle.js"></script>
+    <script type="module" src="/src/js/pages/home.js"></script>
+</body>
+
+</html>

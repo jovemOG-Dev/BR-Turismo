@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Carrinho | BR Turismo</title>
+    
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+
+    <link rel="stylesheet" href="/src/css/pages/cart.css"> 
+</head>
+<body>
+    
+    <header class="header-component">
+        <div class="container">
+            <a href="index.html" class="logo-placeholder" aria-label="BR Turismo - Página Inicial">BR TURISMO</a>
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <button id="menu-toggle" class="icon-btn" aria-controls="main-nav-list">
+                    ☰<span class="sr-only">Abrir Menu</span>
+                </button>
+                <ul id="main-nav-list" role="menu">
+                    <li role="none"><a role="menuitem" href="results.html">Pacotes</a></li>
+                    <li role="none"><a role="menuitem" href="login.html">Login</a></li>
+                    <li role="none"><a role="menuitem" href="cart.html" aria-current="page">Carrinho</a></li>
+                    <li role="none" id="nav-admin-link" style="display: none;"><a role="menuitem" href="admin-panel.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container cart-layout">
+            
+            <section id="cart-list-area" aria-labelledby="cart-heading">
+                <h1 id="cart-heading">Seu Carrinho de Compras</h1>
+                
+                <div id="cart-items-container">
+                    </div>
+
+                <div id="empty-cart-message" style="display: none;">
+                    <p>Seu carrinho está vazio. Adicione pacotes de viagem para começar!</p>
+                    <a href="results.html" class="btn btn-primary">Ver Pacotes</a>
+                </div>
+            </section>
+
+            <aside id="cart-summary-sidebar" aria-labelledby="summary-heading">
+                <h2 id="summary-heading">Resumo do Pedido</h2>
+                
+                <div class="summary-details">
+                    <div class="summary-line">
+                        <span>Subtotal de Pacotes:</span>
+                        <span id="cart-subtotal">R$ 0,00</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Impostos e Taxas (Simulação):</span>
+                        <span>R$ 0,00</span>
+                    </div>
+                    
+                    <div class="summary-line total">
+                        <span>TOTAL:</span>
+                        <span id="cart-total">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--space-xl);">
+                    <button id="checkout-btn" class="btn btn-primary btn-block" disabled>
+                        Prosseguir para o Checkout
+                    </button>
+                </div>
+                
+                <p class="disclaimer-text" style="margin-top: var(--space-md);">
+                    Taxas e descontos serão aplicados na próxima etapa.
+                </p>
+            </aside>
+        </div>
+    </main>
+    
+    <footer class="footer-component">
+        </footer>
+
+    <script type="module">
+        import { setupMenuToggle } from '/src/js/components/menu-toggle.js'; 
+        import { initCartPage } from '/src/js/pages/cart.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();      
+            initCartPage();         // Inicia a renderização do carrinho
+        });
+    </script>
+</body>
+</html>

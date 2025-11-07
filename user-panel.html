@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Usuário | BR Turismo</title>
+    
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+
+    <link rel="stylesheet" href="/src/css/pages/user-panel.css"> 
+</head>
+<body>
+    
+    <header class="header-component">
+        </header>
+
+    <main>
+        <div class="container user-panel-layout">
+            
+            <aside id="panel-sidebar" aria-label="Navegação do Painel do Usuário">
+                <nav>
+                    <ul class="panel-nav-list">
+                        <li class="panel-nav-item active" data-target="profile">
+                            <a href="#">Meu Perfil</a>
+                        </li>
+                        <li class="panel-nav-item" data-target="orders">
+                            <a href="#">Meus Pedidos</a>
+                        </li>
+                        <li class="panel-nav-item" data-target="settings">
+                            <a href="#">Configurações</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <hr style="margin: var(--space-lg) 0;">
+                
+                <button id="logout-btn" class="btn btn-secondary btn-block" onclick="window.AuthService.logoutAndRedirect('/');">
+                    Sair da Conta
+                </button>
+            </aside>
+
+            <section id="panel-content" aria-live="polite">
+                <p>Carregando painel...</p>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer-component">
+        </footer>
+
+    <script type="module">
+        import { setupMenuToggle } from '/src/js/components/menu-toggle.js'; 
+        import { initUserPanel } from '/src/js/pages/user-panel.js';
+        import { AuthService } from '/src/js/services/auth.js';
+        
+        // Exporta o serviço para uso global (ex: onclick no botão de logout)
+        window.AuthService = AuthService;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();      
+            initUserPanel();         
+        });
+    </script>
+</body>
+</html>

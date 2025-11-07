@@ -1,0 +1,80 @@
+/**
+ * 🎨 Estilos Específicos da Página de Login (login.html)
+ * Arquivo: src/css/pages/login.css
+ */
+
+/* 1. Layout Principal de Login (Centraliza o conteúdo da página) */
+.login-page-content {
+    /* O 'max-width' e 'margin: 0 auto' aplicado no base.css centraliza o header e footer */
+    /* Aqui, garantimos a largura mais estreita para o conteúdo principal da main */
+    max-width: 500px;
+    
+    /* Espaçamento vertical grande para dar destaque ao formulário */
+    padding-top: 4rem; 
+    padding-bottom: 4rem;
+}
+
+/* 2. Estilo do Contêiner do Formulário de Login/Cadastro */
+.auth-form-component {
+    /* Estilo de Card para destacar o formulário */
+    background-color: var(--color-white); /* Fundo branco dentro do box */
+    padding: var(--space-xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md); /* Sombra para dar profundidade */
+    border: 1px solid var(--color-border);
+}
+
+/* 3. Utilities Específicas da Página */
+.btn-full {
+    width: 100%; /* Faz o botão ocupar 100% da largura do contêiner */
+}
+
+.link-primary {
+    color: var(--color-brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.link-primary:hover {
+    color: color-mix(in srgb, var(--color-brand-primary) 85%, black);
+    text-decoration: underline;
+}
+
+/** * Adicionar no seu arquivo src/css/pages/login.css 
+ * Define o estilo de 'Card' para o formulário.
+ */
+
+/* Estilo do container que envolve o formulário */
+.auth-card-wrapper {
+    /* Simula bg-white */
+    background-color: var(--color-white); 
+    /* Simula rounded-lg */
+    border-radius: var(--border-radius-md); 
+    /* Simula shadow-lg (ajustei para o shadow-md que é um bom tamanho) */
+    box-shadow: var(--shadow-md); 
+    /* Simula p-8 (usando space-xl) */
+    padding: var(--space-xl); 
+}
+
+/* * Reajustar o estilo do formulário que estava em form.css/login.css 
+ * A classe auth-form-component agora é apenas para o layout interno.
+ */
+.auth-form-component {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg); /* Espaçamento entre os campos */
+    /* Remover background, padding, shadow, border-radius se estiverem aqui */
+    margin: 0; /* Garante que não tenha margens desnecessárias */
+}
+
+/* Estilo de link de texto simples */
+.link-primary {
+    color: var(--color-brand-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-primary:hover {
+    text-decoration: underline;
+}

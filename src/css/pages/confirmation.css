@@ -1,0 +1,62 @@
+/**
+ * 🎨 Estilos Específicos da Página Confirmação (confirmation.html)
+ * Arquivo: src/css/pages/confirmation.css
+ */
+
+.confirmation-card {
+    max-width: 700px;
+    margin: var(--space-xl) auto;
+    padding: var(--space-xl);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-success); /* Borda de sucesso */
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.confirmation-title {
+    color: var(--color-success);
+    font-size: var(--font-size-h2);
+    margin-bottom: var(--space-md);
+}
+
+.confirmation-subtitle {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-h4);
+    margin-bottom: var(--space-lg);
+}
+
+.confirmation-details {
+    background-color: color-mix(in srgb, var(--color-success) 10%, var(--color-background-base));
+    border-left: 5px solid var(--color-success);
+    padding: var(--space-lg);
+    margin: var(--space-xl) 0;
+    text-align: left;
+}
+
+.confirmation-details p {
+    margin: var(--space-xs) 0;
+}
+
+.order-id {
+    font-weight: bold;
+    color: var(--color-text-primary);
+}
+
+.next-steps-prompt {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--space-xl);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* Mobile: empilhar */
+    gap: var(--space-md);
+    justify-content: center;
+}
+
+@media (min-width: 600px) {
+    .action-buttons {
+        flex-direction: row; /* Desktop: lado a lado */
+    }
+}

@@ -1,0 +1,156 @@
+/**
+ * 🎨 Componente Header (Cabeçalho)
+ * Arquivo: src/css/components/header.css
+ * Estratégia: Mobile-First, Foco em Acessibilidade
+ */
+
+.header-component {
+    background-color: var(--color-background-base);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) 0;
+    position: sticky;
+    /* Fixo no topo */
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-component .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--space-md);
+    /* Padding lateral em mobile */
+}
+
+/* --- Logo Placeholder --- */
+.header-component .logo-placeholder {
+    font-size: var(--font-size-h4);
+    font-weight: bold;
+    color: var(--color-brand-primary);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: var(--space-xs);
+    outline-offset: 2px;
+    /* Acessibilidade: foco visível */
+}
+
+/* --- Menu Hamburguer (Botão) --- */
+#menu-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    padding: var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    /* Ícone de menu */
+}
+
+/* Ocultar o botão de toggle no Desktop */
+@media (min-width: 768px) {
+    #menu-toggle {
+        display: none;
+    }
+}
+
+/* --- Navegação Principal (Mobile-First) --- */
+#main-nav-list {
+    list-style: none;
+    position: static;
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-xl);
+    /* Aumentei o gap para melhor espaçamento visual */
+    /* Removendo quaisquer margens/paddings que possam desalinhar */
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+/* Estado de Menu Aberto (Controlado via JS/ARIA) */
+/* Quando o JS adicionar a classe 'is-open' ao #main-nav */
+#main-nav.is-open #main-nav-list {
+    display: flex;
+}
+
+#main-nav-list li {
+    border-bottom: 1px solid var(--color-border);
+}
+
+#main-nav-list a {
+    display: block;
+    padding: var(--space-md);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* --- Layout Desktop (Min-width: 768px) --- */
+@media (min-width: 768px) {
+
+    /* 1. O Container Principal (Onde está o grid) */
+    .header-component .container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        /* Logo | Nav Principal | Login/Ações */
+        gap: var(--space-xl);
+        align-items: center;
+        /* Garantir alinhamento vertical */
+    }
+
+    /* Configuração da Navegação Principal */
+    #main-nav {
+        grid-column: 2 / 3;
+        /* Ocupa a coluna central */
+        /* Ajuste Chave: Usar Flexbox para centralizar a LISTA dentro desta coluna */
+        display: flex;
+        justify-content: center;
+        /* Centraliza o conteúdo (a lista) horizontalmente */
+        align-items: center;
+        /* Remover width: 100%; se estiver causando problemas de alinhamento desnecessários */
+    }
+
+    /* Lista de links de navegação */
+    #main-nav-list {
+        position: static;
+        display: flex;
+        /* Links em linha */
+        flex-direction: row;
+        gap: var(--space-lg);
+        background: none;
+        border-top: none;
+        box-shadow: none;
+    }
+
+    #main-nav-list li {
+        border-bottom: none;
+    }
+
+    /* Estilos de link da Referência (Hover e Active) */
+    #main-nav-list a {
+        padding: var(--space-xs) var(--space-sm);
+        text-align: left;
+        color: var(--color-text-primary);
+        transition: color 0.2s, border-bottom 0.2s;
+        border-bottom: 2px solid transparent;
+        /* Para o efeito de hover/active */
+    }
+
+    #main-nav-list a:hover {
+        color: var(--color-brand-primary);
+        border-bottom-color: var(--color-brand-secondary);
+        /* Efeito de linha amarela */
+    }
+
+    /* Simulação de estado ativo */
+    #main-nav-list .nav-item-active a {
+        color: var(--color-brand-primary);
+        font-weight: bold;
+        border-bottom-color: var(--color-brand-primary);
+    }
+
+    /* Oculta o botão hamburguer no desktop */
+    #menu-toggle {
+        display: none;
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato | BR Turismo</title>
+    
+    <link rel="stylesheet" href="/src/css/base.css">
+    <link rel="stylesheet" href="/src/css/components/header.css">
+    <link rel="stylesheet" href="/src/css/components/footer.css">
+    <link rel="stylesheet" href="/src/css/components/button.css">
+    <link rel="stylesheet" href="/src/css/components/form.css">
+
+    <link rel="stylesheet" href="/src/css/pages/static-page.css"> 
+</head>
+<body>
+    
+    <header class="header-component">
+        </header>
+
+    <main>
+        <div class="container static-page-content">
+            
+            <h1>Fale Conosco</h1>
+            
+            <p>Se você tem alguma dúvida, sugestão ou precisa de suporte para sua reserva, preencha o formulário abaixo. Nossa equipe responderá o mais breve possível.</p>
+            
+            <section id="contact-form-section">
+                <h2>Envie sua Mensagem</h2>
+                <form id="contact-form">
+                    <div class="input-group">
+                        <label for="contact-name">Seu Nome</label>
+                        <input type="text" id="contact-name" name="name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="contact-email">Seu Melhor Email</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="subject">Assunto</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Selecione um assunto</option>
+                            <option value="duvida">Dúvidas sobre Pacotes</option>
+                            <option value="suporte">Suporte a Pedidos Existentes</option>
+                            <option value="sugestao">Sugestão/Feedback</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="message">Mensagem</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" id="submit-contact">
+                        Enviar Mensagem
+                    </button>
+                </form>
+            </section>
+
+            <h2 style="margin-top: 40px;">Outros Canais</h2>
+            <p>Se preferir, entre em contato pelos canais:</p>
+            <ul>
+                <li>**Telefone:** (11) 5555-0000 (Segunda a Sexta, 9h às 18h)</li>
+                <li>**Email de Suporte:** <a href="mailto:suporte@brturismo.com">suporte@brturismo.com</a></li>
+            </ul>
+        </div>
+    </main>
+    
+    <footer class="footer-component">
+        </footer>
+
+    <script type="module">
+        import { setupMenuToggle } from '/src/js/components/menu-toggle.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();
+            
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Simulação: Envio de Contato
+                    alert('Mensagem enviada com sucesso! A BR Turismo agradece o seu contato.');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
