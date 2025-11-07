@@ -15,7 +15,7 @@
 #hero-search {
     position: relative;
     /* Imagem de Praia com Overlay Escuro */
-    background: url('/src/assets/images/landingimg.jpg') center/cover;
+    background: url('../../assets/images/landingimg.jpg') center/cover;
     color: var(--color-white);
     padding: 6rem 0;
     min-height: 70vh; 

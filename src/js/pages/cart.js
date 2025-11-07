@@ -24,7 +24,7 @@ const renderCartItem = (item) => {
     return `
         <div class="cart-item" data-item-id="${item.id}">
             <div class="item-image">
-                <img src="${item.imageUrl || '/src/assets/images/mock/default-package.jpg'}" alt="Imagem do pacote ${item.title}">
+                <img src="${item.imageUrl || '../../assets/images/mock/default-package.jpg'}" alt="Imagem do pacote ${item.title}">
             </div>
             <div class="item-details">
                 <h3><a href="/details.html?id=${item.packageId}">${item.title}</a></h3>
