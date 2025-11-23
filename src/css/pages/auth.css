@@ -1,0 +1,74 @@
+/**
+ * 🎨 Estilos de Layout para Páginas de Autenticação (Login e Cadastro)
+ * Arquivo: src/css/pages/auth.css
+ * Responsabilidade: Garantir a consistência visual dos formulários de Auth.
+ */
+
+/* 1. Layout Principal (Centraliza e restringe a largura) */
+.auth-page-content {
+    /* Largura máxima padrão para o formulário */
+    max-width: 500px;
+    
+    /* Espaçamento vertical grande para dar destaque ao formulário */
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    margin: 0 auto; /* Centraliza, mas o .container já faz isso */
+}
+
+/* 2. Estilo de Card (Wrapper) para o Formulário de Login/Cadastro */
+.auth-card-wrapper {
+    /* Simula bg-white */
+    background-color: var(--color-white); 
+    /* Simula rounded-lg */
+    border-radius: var(--border-radius-md); 
+    /* Sombra para dar profundidade */
+    box-shadow: var(--shadow-sm); 
+    /* Padding interno */
+    padding: var(--space-xl); 
+    /* Borda sutil */
+    border: 1px solid var(--color-border);
+}
+
+/* 3. Estilo do Componente Formulário */
+.auth-form-component {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg); /* Espaçamento entre os campos */
+    margin: 0; 
+}
+
+/* 4. Utilities Específicas */
+.btn-full {
+    width: 100%; /* Faz o botão ocupar 100% da largura do contêiner */
+}
+
+.link-primary {
+    color: var(--color-brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.link-primary:hover {
+    color: color-mix(in srgb, var(--color-brand-primary) 85%, black);
+    text-decoration: underline;
+}
+
+/* 5. Feedback de Validação */
+.input-group input.invalid,
+.input-group input:focus.invalid {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 25%, transparent);
+}
+
+.invalid-feedback {
+    /* Estilo para a mensagem de erro */
+    color: var(--color-danger);
+    font-size: var(--font-size-small);
+    margin-top: var(--space-xs);
+    display: none; /* Oculto por padrão */
+}
+
+.input-group.error .invalid-feedback {
+    display: block; /* Exibe se o grupo de input tiver a classe .error */
+}

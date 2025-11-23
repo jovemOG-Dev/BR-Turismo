@@ -1,7 +1,12 @@
 /**
  * 🎨 Estilos Específicos da Página de Login (login.html)
  * Arquivo: src/css/pages/login.css
+ * ⚠️ NOTA: O layout principal (auth-page-content e auth-card-wrapper)
+ * foi movido para src/css/pages/auth.css para reutilização.
  */
+
+/* Mantido apenas para referências futuras ou pequenos ajustes exclusivos da página de login */
+/* O .auth-page-content e .auth-card-wrapper devem ser importados de auth.css */
 
 /* 1. Layout Principal de Login (Centraliza o conteúdo da página) */
 .login-page-content {
@@ -54,7 +59,7 @@
     /* Simula shadow-lg (ajustei para o shadow-md que é um bom tamanho) */
     box-shadow: var(--shadow-md); 
     /* Simula p-8 (usando space-xl) */
-    padding: var(--space-xl); 
+    padding: var(--space-x); 
 }
 
 /* * Reajustar o estilo do formulário que estava em form.css/login.css 
