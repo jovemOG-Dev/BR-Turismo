@@ -48,7 +48,7 @@ const renderUserProfile = (user) => {
                 <p>${user.email}</p>
             </div>
             <div class="info-card">
-                <h3>CPF (Simulado)</h3>
+                <h3>CPF</h3>
                 <p>${user.cpf || 'Não informado'}</p>
             </div>
             <div class="info-card">

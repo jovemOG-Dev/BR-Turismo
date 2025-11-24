@@ -16,7 +16,14 @@ const phoneInput = document.getElementById('register-phone');
 const birthdateInput = document.getElementById('register-birthdate');
 const passwordInput = document.getElementById('register-password');
 const confirmPasswordInput = document.getElementById('register-confirm-password');
-const globalError = document.getElementById('register-error');
+const globalError = document.getElementById('global-error');
+
+// NOVOS Elementos DOM para o CEP
+const cepInput = document.getElementById('register-cep');
+const logradouroInput = document.getElementById('register-logradouro');
+const bairroInput = document.getElementById('register-bairro');
+const cidadeInput = document.getElementById('register-cidade');
+const ufInput = document.getElementById('register-uf');
 
 /**
  * Exibe ou oculta o feedback visual de erro para um campo.
@@ -82,6 +89,63 @@ const validateForm = () => {
     return isValid;
 };
 
+const clearAddressFields = () => {
+    // Evita erros de null ao verificar a existência de cada elemento
+    if (logradouroInput) logradouroInput.value = '';
+    if (bairroInput) bairroInput.value = '';
+    if (cidadeInput) cidadeInput.value = '';
+    if (ufInput) ufInput.value = '';
+    // if (cepStatusMessage) cepStatusMessage.textContent = '';
+};
+
+/**
+ * Busca o endereço na API ViaCEP e preenche os campos.
+ * É disparada quando o campo CEP perde o foco (evento 'blur').
+ */
+const fetchAddressByCep = () => {
+    if (!cepInput) return;
+
+    // Limpa o CEP (mantém apenas dígitos) e campos de endereço
+    const cep = cepInput.value.replace(/[^0-9]/g, '').trim(); 
+    clearAddressFields();
+
+    // Validação de 8 dígitos
+    if (cep.length !== 8) {
+        // if (cepStatusMessage) cepStatusMessage.textContent = 'CEP inválido.';
+        return;
+    }
+
+    // if (cepStatusMessage) cepStatusMessage.textContent = 'Buscando endereço...';
+
+    // Requisição à API ViaCEP
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição ViaCEP');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.erro) {
+                // if (cepStatusMessage) cepStatusMessage.textContent = '❌ CEP não encontrado.';
+                console.warn('CEP não encontrado na API.');
+                return;
+            }
+
+            // Preenchimento dos campos (ViaCEP usa 'localidade' para cidade)
+            if (logradouroInput) logradouroInput.value = data.logradouro || '';
+            if (bairroInput) bairroInput.value = data.bairro || '';
+            if (cidadeInput) cidadeInput.value = data.localidade || ''; 
+            if (ufInput) ufInput.value = data.uf || '';
+            
+            // if (cepStatusMessage) cepStatusMessage.textContent = '✅ Endereço preenchido!';
+        })
+        .catch(error => {
+            console.error('Erro ao buscar o CEP:', error);
+            // if (cepStatusMessage) cepStatusMessage.textContent = '⚠️ Erro ao buscar o CEP.';
+        });
+};
+
 /**
  * Função de manipulação da submissão do formulário.
  * @param {Event} e - Evento de submissão.
@@ -127,6 +191,13 @@ export const initRegisterPage = () => {
         return;
     }
     
+    if (cepInput) {
+        cepInput.addEventListener('blur', fetchAddressByCep);
+    } else {
+        // Log de erro útil caso o ID 'cep' ainda esteja faltando no HTML
+        console.error("ERRO de inicialização: Campo de CEP (id='cep') não encontrado.");
+    }
+
     // Máscara de CPF e Telefone (Simples, remove não-dígitos)
     cpfInput.addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/[^\d]/g, '');

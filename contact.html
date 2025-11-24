@@ -29,7 +29,7 @@
                 </ul>
             </nav>
 
-            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+            <a href="login.html" id="header-auth-link" class="btn btn-secondary btn-sm" style="margin-left: auto;">
                 Login
             </a>
 
@@ -129,9 +129,11 @@
 
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js';
-        
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
+                
         document.addEventListener('DOMContentLoaded', () => {
             setupMenuToggle();
+            initHeaderAuth();
             
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
