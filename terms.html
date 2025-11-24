@@ -14,7 +14,27 @@
 <body>
     
     <header class="header-component">
-        </header>
+        <div class="container">
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <ul id="main-nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Login
+            </a>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
 
     <main>
         <div class="container static-page-content">
@@ -50,7 +70,41 @@
     </main>
     
     <footer class="footer-component">
-        </footer>
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
 
     <script type="module" src="./src/js/components/menu-toggle.js"></script>
     <script>

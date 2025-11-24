@@ -3,6 +3,7 @@
  * Simulação de Autenticação e Gestão de Sessão (MVP Estático).
  * AVISO: A segurança é completamente comprometida.
  */
+import { Validator } from './validator.js';
 import { StorageService } from './storage.js';
 import { User } from '../models/user.js';
 // O módulo de validação (validator.js) será usado aqui, mas ainda não foi criado.
@@ -57,7 +58,11 @@ const login = (email, password) => {
  * @returns {User|null} Novo objeto de usuário ou null em caso de erro.
  */
 const register = (userData) => {
-    // **NOTA DE GAP:** Aqui é onde o Validator.js entraria.
+    
+    if (!Validator.isEmail(userData.email) || !Validator.isPasswordStrong(userData.password)) {
+        console.error("Dados de registro inválidos (validação do service).");
+        return null;
+    }
     
     const users = getAllUsers();
     
