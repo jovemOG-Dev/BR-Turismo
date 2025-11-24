@@ -29,4 +29,56 @@ const getMockPackages = () => ([
     // ...
 ]);
 
-// ... (Resto do código results.js não alterado)
+/**
+ * Cria o HTML para um card de pacote (utilidade).
+ */
+const createPackageCard = (pkg) => {
+    return `
+        <div class="package-card-component package-result-card">
+            <img src="${pkg.imageUrl}" alt="Imagem de ${pkg.title}" loading="lazy">
+            <div class="card-body">
+                <h3>${pkg.title}</h3>
+                <p class="location">${pkg.location}</p>
+                <p class="description">${pkg.description}</p>
+                <div class="card-footer">
+                    <span class="price">R$ ${pkg.price.toFixed(2).replace('.', ',')}</span>
+                    <a href="details.html?id=${pkg.id}" class="btn btn-primary btn-sm">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+
+/**
+ * Renderiza os pacotes na página de resultados.
+ * @param {Package[]} packages - Lista de pacotes a renderizar.
+ */
+const renderResults = (packages) => {
+    // Assumindo que o contêiner de resultados tenha o ID 'packages-list'
+    const resultsContainer = document.getElementById('results-list');
+    
+    if (resultsContainer) {
+        const cardsHTML = packages.map(createPackageCard).join('');
+        resultsContainer.innerHTML = cardsHTML;
+    } else {
+        console.error("Contêiner de resultados (#packages-list) não encontrado.");
+    }
+};
+
+
+/**
+ * FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO.
+ * Exporta a função para ser chamada pelo HTML.
+ */
+export const initResultsPage = () => {
+    console.log("Página de Resultados inicializada.");
+    
+    // 1. Lógica para carregar os pacotes
+    const packages = getMockPackages();
+    
+    // 2. Renderizar
+    renderResults(packages);
+    
+    // 3. (Futuro: Configurar filtros e ordenação)
+};

@@ -30,6 +30,9 @@
                     <li role="none" id="nav-admin-link" style="display: none;"><a role="menuitem" href="admin-panel.html">Admin</a></li>
                 </ul>
             </nav>
+            <a href="login.html" id="header-auth-link" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Login
+            </a>
         </div>
     </header>
 
@@ -105,10 +108,12 @@
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
         import { initDetailsPage } from './src/js/pages/details.js'; // Novo Módulo
+        import { initHeaderAuth } from './src/js/components/header-auth.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            setupMenuToggle();      
-            initDetailsPage();      // Inicia a busca do Pacote por ID na URL
+            setupMenuToggle(),      
+            initDetailsPage(),      // Inicia a busca do Pacote por ID na URL
+            initHeaderAuth();       // Atualiza o link de autenticação no cabeçalho
         });
     </script>
 </body>

@@ -1,25 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Usuário | BR Turismo</title>
-    
+
     <link rel="stylesheet" href="./src/css/base.css">
     <link rel="stylesheet" href="./src/css/components/header.css">
     <link rel="stylesheet" href="./src/css/components/button.css">
     <link rel="stylesheet" href="./src/css/components/footer.css">
+    <link rel="icon" type="image/png" href="./src/assets/images/icon.png">
 
-    <link rel="stylesheet" href="./src/css/pages/user-panel.css"> 
+    <link rel="stylesheet" href="./src/css/pages/user-panel.css">
 </head>
+
 <body>
-    
+
     <header class="header-component">
-        </header>
+        <div class="container">
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
+            <nav id="main-nav" aria-label="Navegação Principal">
+                <ul id="main-nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <a href="user-panel.html" id="header-auth-link" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                Painel do Usuário
+            </a>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
 
     <main>
         <div class="container user-panel-layout">
-            
+
             <aside id="panel-sidebar" aria-label="Navegação do Painel do Usuário">
                 <nav>
                     <ul class="panel-nav-list">
@@ -34,10 +57,11 @@
                         </li>
                     </ul>
                 </nav>
-                
+
                 <hr style="margin: var(--space-lg) 0;">
-                
-                <button id="logout-btn" class="btn btn-secondary btn-block" onclick="window.AuthService.logoutAndRedirect('/');">
+
+                <button id="logout-btn" class="btn btn-secondary btn-block"
+                    onclick="window.AuthService.logoutAndRedirect('index.html');">
                     Sair da Conta
                 </button>
             </aside>
@@ -47,7 +71,7 @@
             </section>
         </div>
     </main>
-    
+
     <footer class="footer-component">
         <div class="container">
             <div class="footer-links">
@@ -86,17 +110,21 @@
     </footer>
 
     <script type="module">
-        import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
+        import { setupMenuToggle } from './src/js/components/menu-toggle.js';
         import { initUserPanel } from './src/js/pages/user-panel.js';
         import { AuthService } from './src/js/services/auth.js';
-        
+        // 3. Importação do novo módulo de autenticação do header
+        import { initHeaderAuth } from './src/js/components/header-auth.js';
+
         // Exporta o serviço para uso global (ex: onclick no botão de logout)
         window.AuthService = AuthService;
 
         document.addEventListener('DOMContentLoaded', () => {
-            setupMenuToggle();      
-            initUserPanel();         
+            setupMenuToggle();
+            initUserPanel();
+            initHeaderAuth(); // 4. Chamada para atualizar o link
         });
     </script>
 </body>
+
 </html>
