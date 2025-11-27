@@ -18,26 +18,30 @@
     
     <header class="header-component">
         <div class="container">
-            <a href="index.html" class="logo-placeholder" aria-label="BR Turismo - Página Inicial">BR TURISMO</a>
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
             <nav id="main-nav" aria-label="Navegação Principal">
-                <button id="menu-toggle" class="icon-btn" aria-controls="main-nav-list">
-                    ☰<span class="sr-only">Abrir Menu</span>
-                </button>
-                <ul id="main-nav-list" role="menu">
-                    <li role="none"><a role="menuitem" href="results.html">Pacotes</a></li>
-                    <li role="none"><a role="menuitem" href="login.html">Login</a></li>
-                    <li role="none"><a role="menuitem" href="cart.html">Carrinho</a></li>
-                    <li role="none" id="nav-admin-link" style="display: none;"><a role="menuitem" href="admin-panel.html">Admin</a></li>
+                <ul id="main-nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
                 </ul>
             </nav>
-            <a href="login.html" id="header-auth-link" class="btn btn-secondary btn-sm" style="margin-left: auto;">
-                Login
-            </a>
+
+            <div class="header-actions">
+                <a href="cart.html" class="btn btn-secondary btn-sm cart-link">Carrinho</a>
+                <a href="user-panel.html" id="header-auth-link" class="btn btn-primary btn-sm auth-status">Entrar</a>
+            </div>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
     <main id="package-details-main">
-        <div class="container">
+        <div class="container package-details-layout">
             <section id="package-info" aria-labelledby="package-title">
                 
                 <div class="details-header">
@@ -49,18 +53,21 @@
                     <img id="package-main-image" src="" alt="Imagem de Destino" width="1000" height="600" loading="eager">
                 </div>
 
-                <div class="details-layout">
+                <div class="details-content-wrapper">
                     
-                    <article id="package-content">
+                    <article id="package-content" class="package-main-info">
                         
                         <h2>Sobre o Destino e o Pacote</h2>
-                        <p id="package-description" class="lead-description"></p>
+                        <p id="package-description" class="lead-description">
+                            Detalhes do pacote e informações sobre o destino...
+                        </p>
                         
                         <h3>Inclusões e Roteiro</h3>
-                        <ul id="package-inclusions" class="inclusions-list">
-                            <li>✈️ Aéreo de Ida e Volta (Simulado)</li>
-                            <li>🏨 3 Noites de Hospedagem (Simulado)</li>
-                            </ul>
+                        <ul id="package-inclusions" class="feature-list">
+                            <li>Aéreo de Ida e Volta (Simulado)</li>
+                            <li>3 Noites de Hospedagem (Simulado)</li>
+                            <li>Café da Manhã Incluído</li>
+                        </ul>
 
                         <h3>Avaliações de Clientes (Mock)</h3>
                         <div id="customer-reviews">
@@ -69,13 +76,15 @@
                         </div>
                     </article>
 
-                    <aside id="booking-sidebar" aria-label="Opções de Reserva">
-                        <div class="price-box">
-                            <p class="starting-price">A partir de</p>
-                            <span id="package-price" class="price-highlight">R$ 0,00</span>
-                        </div>
+                    <aside id="booking-sidebar" class="booking-aside" aria-label="Opções de Reserva">
+                        <h3>Reserve seu Pacote</h3>
                         
                         <form id="booking-form">
+                            <div class="price-box">
+                                <p class="starting-price">Preço por pessoa a partir de:</p>
+                                <span id="package-price" class="price-highlight">R$ 0,00</span>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="booking-date">Data da Viagem:</label>
                                 <input type="date" id="booking-date" required>
@@ -87,8 +96,8 @@
                             
                             <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$ 0,00</strong></p>
                             
-                            <button type="submit" id="add-to-cart-btn" class="btn btn-primary btn-block">
-                                Adicionar ao Carrinho
+                            <button type="submit" id="add-to-cart-btn" class="btn btn-primary btn-lg btn-block">
+                                Finalizar Reserva
                             </button>
 
                             <p class="disclaimer-text">
@@ -103,18 +112,53 @@
     </main>
     
     <footer class="footer-component">
-        </footer>
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
 
     <script type="module">
-        import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
-        import { initDetailsPage } from './src/js/pages/details.js'; // Novo Módulo
-        import { initHeaderAuth } from './src/js/components/header-auth.js';
-        
+        import { setupMenuToggle } from './src/js/components/menu-toggle.js';
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
+        import { initDetailsPage } from './src/js/pages/details.js';
+
         document.addEventListener('DOMContentLoaded', () => {
-            setupMenuToggle(),      
-            initDetailsPage(),      // Inicia a busca do Pacote por ID na URL
-            initHeaderAuth();       // Atualiza o link de autenticação no cabeçalho
+            setupMenuToggle();
+            initHeaderAuth(); // Chamada para atualizar o link
+            initDetailsPage();
         });
+    </script>
     </script>
 </body>
 </html>

@@ -52,6 +52,11 @@
     color: var(--color-white);
 }
 
+.panel-nav-item.active,
+.panel-nav-item.active a {
+    color: var(--color-white); /* Cor da letra alterada para branco */
+}
+
 .panel-nav-item.active:hover {
     background-color: var(--color-brand-primary); /* Não muda ao hover quando ativo */
 }

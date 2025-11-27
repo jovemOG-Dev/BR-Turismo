@@ -23,6 +23,10 @@
     /* Padding lateral em mobile */
 }
 
+.header-component .container .btn {
+    margin: 0; /* Remove qualquer margem externa que possa causar desalinhamento */
+}
+
 /* --- Logo Placeholder --- */
 .header-component .logo-placeholder {
     font-size: var(--font-size-h4);

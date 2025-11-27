@@ -20,6 +20,7 @@ export class User {
         return {
             id: this.id,
             name: this.name,
+            cpf: this.cpf,
             email: this.email,
             isAdmin: this.isAdmin
         };

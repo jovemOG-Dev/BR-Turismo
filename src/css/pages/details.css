@@ -1,0 +1,108 @@
+/**
+ * 🎨 Estilos Específicos da Página Detalhes do Produto (details.html)
+ * Arquivo: src/css/pages/details.css
+ */
+.package-details-layout {
+    padding: var(--space-xl) 0;
+}
+
+/* --- Título Principal --- */
+.package-details-layout h1 {
+    color: var(--color-brand-primary);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-h2);
+}
+
+/* --- 1. Layout Principal (Mobile: Pilha Vertical) --- */
+.details-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+/* --- Seção de Descrição (Main) --- */
+.package-main-info {
+    order: 2; /* Move a descrição para baixo no mobile */
+}
+
+/* Estilo para listas de Inclusões/Características */
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-md);
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px dashed var(--color-border);
+}
+
+/* Simulação de Ícone (usando unicode/texto para MVP) */
+.feature-list li::before {
+    content: "✔️"; 
+    color: var(--color-success);
+    font-size: var(--font-size-base);
+}
+
+/* --- 2. Painel Lateral de Compra (Aside) --- */
+.booking-aside {
+    order: 1; /* Move o formulário de compra para cima no mobile */
+    background-color: var(--color-background-light);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    position: sticky; /* Sticky para desktop (será ajustado no media query) */
+    top: var(--space-lg); /* Espaço do topo */
+}
+
+.booking-aside h3 {
+    margin-bottom: var(--space-md);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-sm);
+}
+
+.final-price-summary {
+    margin: var(--space-md) 0;
+    font-size: var(--font-size-large);
+    font-weight: 500;
+}
+
+.final-price-summary strong {
+    color: var(--color-danger); /* Cor de preço em destaque */
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+}
+
+.disclaimer-text {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+}
+
+
+/* ========================================================= */
+/* 3. Layout Desktop (min-width: 992px) */
+/* ========================================================= */
+@media (min-width: 992px) {
+    .details-content-wrapper {
+        flex-direction: row;
+        /* Colunas: Conteúdo Principal (70%) | Painel de Compra (30%) */
+        grid-template-columns: 2fr 1fr;
+        display: grid; 
+    }
+
+    .package-main-info,
+    .booking-aside {
+        order: initial; /* Reseta a ordem no desktop */
+    }
+
+    .booking-aside {
+        /* Garante que o formulário lateral permaneça visível */
+        top: 90px; /* Ajuste abaixo do header fixo */
+        height: fit-content;
+    }
+}

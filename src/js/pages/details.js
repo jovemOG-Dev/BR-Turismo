@@ -27,7 +27,7 @@ const MOCK_PACKAGE_DETAILS = [
         title: 'Recife: História e Praias',
         description: 'Recife e Olinda oferecem um mergulho na história colonial e praias urbanas vibrantes. Este pacote foca na cultura e inclui 4 dias de estadia em Boa Viagem, com city tour guiado pelo Recife Antigo e Olinda, Patrimônio da Humanidade.',
         price: 980.50,
-        imageUrl: '../../assets/images/mock/recife-details.jpg',
+        imageUrl: 'https://www.viajenaviagem.com/wp-content/uploads/2023/12/maceio-cadeira-gigante-16x9-1.jpg.webp',
         rating: 4.1,
         location: 'Recife, PE',
         details: {
@@ -84,7 +84,7 @@ const renderPackageDetails = (pkg) => {
             e.preventDefault();
             // LÓGICA FUTURA: adicionar ao carrinho (CartService.addItem(pkg.id, date, travelers))
             alert(`Pacote ${pkg.title} (R$ ${pkg.price}) adicionado ao carrinho! (Simulação)`);
-            window.location.href = '/cart.html'; 
+            window.location.href = '/checkout.html'; 
         });
     }
 

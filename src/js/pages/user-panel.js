@@ -16,6 +16,7 @@ const MOCK_ORDER_HISTORY = [
 const mainContent = document.getElementById('panel-content');
 const navLinks = document.querySelectorAll('.panel-nav-item');
 
+
 /**
  * 1. Protege a rota: redireciona se não estiver logado.
  * @returns {object|null} Usuário logado ou null.
@@ -24,7 +25,7 @@ const checkAuthentication = () => {
     const user = AuthService.getCurrentUser();
     if (!user) {
         alert("Acesso Negado: Faça login para acessar o painel.");
-        window.location.href = '/login.html?redirect=/user-panel.html';
+        window.location.href = 'login.html';
         return null;
     }
     return user;
@@ -60,8 +61,25 @@ const renderUserProfile = (user) => {
         <button class="btn btn-secondary" style="margin-top: var(--space-xl);">
             Editar Informações (Simulação)
         </button>
+
+        <button id="admin-panel-btn" class="btn btn-danger" style="margin-top: var(--space-md);">
+            Painel do Administrador
+        </button>
     `;
     mainContent.innerHTML = contentHTML;
+
+    // NOVO: Adiciona o listener de redirecionamento
+    const adminPanelBtn = document.getElementById('admin-panel-btn');
+    if (adminPanelBtn) {
+        adminPanelBtn.addEventListener('click', () => {
+            window.location.href = 'admin-panel.html';
+        });
+
+        // Oculta o botão se o usuário NÃO for administrador (complementando a lógica de segurança simulada)
+        if (!user.isAdmin) {
+             adminPanelBtn.style.display = 'none';
+        }
+    }
 };
 
 /**
@@ -79,7 +97,7 @@ const renderOrderHistory = () => {
                 <td data-label="Data">${order.date}</td>
                 <td data-label="Total">${formattedTotal}</td>
                 <td data-label="Status"><span class="status-badge ${statusClass}">${order.status}</span></td>
-                <td data-label="Ação"><a href="#" class="action-link">Ver Detalhes</a></td>
+                <td data-label="Ação"><a href="order-details.html?id=${order.id}" class="btn btn-secondary btn-sm">Detalhes</a></td>
             </tr>
         `;
     }).join('');
@@ -158,6 +176,18 @@ const handleNavigation = (target) => {
 export const initUserPanel = () => {
     const user = checkAuthentication();
     if (!user) return;
+
+    const adminPanelLink = document.getElementById('admin-panel-link');
+
+    if (adminPanelLink && user.isAdmin) {
+        // Torna o botão visível apenas para administradores
+        adminPanelLink.style.setProperty('display', 'inline-block', 'important');
+    }
+
+    const welcomeMessage = document.getElementById('welcome-message');
+    if (welcomeMessage) {
+        welcomeMessage.textContent = `Bem-vindo, ${user.name}`;
+    }
 
     // Configura listeners de navegação lateral
     navLinks.forEach(link => {

@@ -64,6 +64,7 @@
     padding: var(--space-md) var(--space-lg);
     font-size: 1.125rem; /* Um pouco maior que o base */
     border-radius: var(--border-radius-md);
+    margin-top: 10px;
 }
 
 /* --- Variação de Link (Botão com aparência de Link) --- */
