@@ -137,11 +137,12 @@
 }
 
 /* --- 3. Área de Resultados (Lista) --- */
-.results-list {
+#results-list {
     display: grid;
-    /* Mobile: 1 coluna de cards */
-    grid-template-columns: 1fr;
+    /* Padrão Mobile: 1 coluna */
+    grid-template-columns: 1fr; 
     gap: var(--space-lg);
+    margin-top: var(--space-md); /* Espaço acima da lista */
 }
 
 /* --- 4. Paginação --- */
@@ -197,5 +198,12 @@
     /* Lista de Resultados: 2 colunas de cards */
     .results-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 600px) {
+    #results-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 Colunas de largura igual */
+        gap: var(--space-xl); /* Mais espaço entre os itens */
     }
 }

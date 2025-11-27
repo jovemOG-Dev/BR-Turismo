@@ -17,18 +17,25 @@
     
     <header class="header-component">
         <div class="container">
-            <a href="index.html" class="logo-placeholder" aria-label="BR Turismo - Página Inicial">BR TURISMO</a>
+            <a href="index.html" class="logo-placeholder">BR TURISMO</a>
+
             <nav id="main-nav" aria-label="Navegação Principal">
-                <button id="menu-toggle" class="icon-btn" aria-controls="main-nav-list">
-                    ☰<span class="sr-only">Abrir Menu</span>
-                </button>
-                <ul id="main-nav-list" role="menu">
-                    <li role="none"><a role="menuitem" href="results.html">Pacotes</a></li>
-                    <li role="none"><a role="menuitem" href="login.html">Login</a></li>
-                    <li role="none"><a role="menuitem" href="cart.html" aria-current="page">Carrinho</a></li>
-                    <li role="none" id="nav-admin-link" style="display: none;"><a role="menuitem" href="admin-panel.html">Admin</a></li>
+                <ul id="main-nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="results.html">Pacotes</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="contact.html">Contato</a></li>
                 </ul>
             </nav>
+
+            <div class="header-actions">
+                <a href="cart.html" class="btn btn-secondary btn-sm cart-link">Carrinho</a>
+                <a href="user-panel.html" id="header-auth-link" class="btn btn-primary btn-sm auth-status">Entrar</a>
+            </div>
+
+            <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
@@ -81,15 +88,51 @@
     </main>
     
     <footer class="footer-component">
-        </footer>
+        <div class="container">
+            <div class="footer-links">
+                <div>
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="about.html">Sobre a BR Turismo</a></li>
+                        <li><a href="contact.html">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ajuda</h3>
+                    <ul>
+                        <li><a href="#">FAQ (Simulação)</a></li>
+                        <li><a href="#">Central de Suporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade (Simulação)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p>Telefone: (11) 5555-0000</p>
+                    <p>Email: suporte@brturismo.com</p>
+                </div>
+            </div>
+            <div class="copyright-notice">
+                © 2025 BR Turismo. Todos os direitos reservados.
+                <p>⚠️ Este é um MVP de Site Estático. Funções de compra e autenticação são **simuladas**.</p>
+            </div>
+        </div>
+    </footer>
 
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
         import { initCartPage } from './src/js/pages/cart.js';
+        import { initHeaderAuth } from './src/js/components/header-auth.js';
         
         document.addEventListener('DOMContentLoaded', () => {
             setupMenuToggle();      
             initCartPage();         // Inicia a renderização do carrinho
+            initHeaderAuth();       // Atualiza o link de autenticação no cabeçalho
         });
     </script>
 </body>

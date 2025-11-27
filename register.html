@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./src/css/components/footer.css">
     <link rel="icon" type="image/png" href="./src/assets/images/icon.png">
 
-    <link rel="stylesheet" href="./src/css/pages/auth.css"> 
+    <link rel="stylesheet" href="./src/css/pages/auth.css">
 </head>
 
 <body>
@@ -31,9 +31,10 @@
                 </ul>
             </nav>
 
-            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
-                Login
-            </a>
+            <div class="header-actions">
+                <a href="cart.html" class="btn btn-secondary btn-sm cart-link">Carrinho</a>
+                <a href="user-panel.html" id="header-auth-link" class="btn btn-primary btn-sm auth-status">Entrar</a>
+            </div>
 
             <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
                 <span></span><span></span><span></span>
@@ -42,71 +43,94 @@
     </header>
 
     <main>
-        <div class="container auth-page-content"> 
-            <div class="auth-card-wrapper"> <h1 class="text-center" style="margin-bottom: 2rem;">Crie sua Conta</h1>
+        <div class="container auth-page-content">
+            <div class="auth-card-wrapper">
+                <h1 class="text-center" style="margin-bottom: 2rem;">Crie sua Conta</h1>
 
                 <form id="register-form" class="auth-form-component">
+                    <div class="form-grid-2">
 
-                    <div class="input-group" id="group-name">
-                        <label for="register-name">Nome Completo</label>
-                        <input type="text" id="register-name" name="name" placeholder="Seu nome e sobrenome" required>
-                        <p class="invalid-feedback" id="name-error">O nome completo é obrigatório.</p>
+                        <div class="input-group">
+                            <label for="register-name">Nome Completo</label>
+                            <input type="text" id="register-name" required>
+                            <p class="invalid-feedback" id="name-error">O nome completo é obrigatório.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="register-email">E-mail</label>
+                            <input type="email" id="register-email" required>
+                            <p class="invalid-feedback" id="email-error">Por favor, insira um e-mail válido.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="register-cpf">CPF</label>
+                            <input type="text" id="register-cpf" maxlength="14" required>
+                            <p class="invalid-feedback" id="cpf-error">O CPF é inválido ou incompleto.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="register-phone">Telefone</label>
+                            <input type="tel" id="register-phone" required>
+                            <p class="invalid-feedback" id="phone-error">Por favor, insira um telefone válido (DDD + 8 ou 9
+                                dígitos).</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="register-cep">CEP</label>
+                            <div class="input-with-button">
+                                <input type="text" id="register-cep" maxlength="8" required>
+                                <button type="button" id="cep-search-btn" class="btn btn-secondary btn-sm">Buscar</button>
+                            </div>
+                            <p class="input-feedback" id="cep-message">Informe um CEP válido e clique em Buscar.</p>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="register-number">Número</label>
+                            <input type="text" id="register-number" required>
+                            <p class="invalid-feedback" id="number-error"></p>
+                        </div>
+
+                        <div class="input-group" style="grid-column: span 2;">
+                            <label for="register-full-address">Endereço Completo</label>
+                            <input type="text" id="register-full-address" readonly required>
+                            </div>
+
+                        <div class="input-group">
+                            <label for="register-birthdate">Data de Nascimento</label>
+                            <input type="date" id="register-birthdate" required>
+                            <p class="invalid-feedback" id="birthdate-error">Você deve ter no mínimo 18 anos para se
+                                cadastrar.</p>
+                        </div>
+                        
+                        <div class="input-group">
+                            </div>
+                        
+                        <div class="input-group">
+                            <label for="register-password">Senha</label>
+                            <input type="password" id="register-password" required>
+                            <p class="invalid-feedback" id="password-error">A senha deve ter no mínimo 8 caracteres,
+                                incluindo letra e número.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="register-confirm-password">Confirmar Senha</label>
+                            <input type="password" id="register-confirm-password" required>
+                            <p class="invalid-feedback" id="confirm-password-error">As senhas não conferem.</p>
+                        </div>
+
                     </div>
 
-                    <div class="input-group" id="group-email">
-                        <label for="register-email">E-mail</label>
-                        <input type="email" id="register-email" name="email" placeholder="seu@email.com" required>
-                        <p class="invalid-feedback" id="email-error">Por favor, insira um e-mail válido.</p>
-                    </div>
+                    <p class="invalid-feedback" id="global-error" style="text-align:center;display:none;"></p>
 
-                    <div class="input-group" id="group-cpf">
-                        <label for="register-cpf">CPF</label>
-                        <input type="text" id="register-cpf" name="cpf" placeholder="000.000.000-00" maxlength="14"
-                            required>
-                        <p class="invalid-feedback" id="cpf-error">O CPF é inválido ou incompleto.</p>
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Cadastrar</button>
 
-                    <div class="input-group" id="group-phone">
-                        <label for="register-phone">Telefone</label>
-                        <input type="tel" id="register-phone" name="phone" placeholder="(99) 99999-9999" required>
-                        <p class="invalid-feedback" id="phone-error">Por favor, insira um telefone válido (DDD + 8 ou 9
-                            dígitos).</p>
-                    </div>
 
-                    <div class="input-group" id="group-birthdate">
-                        <label for="register-birthdate">Data de Nascimento</label>
-                        <input type="date" id="register-birthdate" name="birthdate" required>
-                        <p class="invalid-feedback" id="birthdate-error">Você deve ter no mínimo 18 anos para se
-                            cadastrar.</p>
-                    </div>
-
-                    <div class="input-group" id="group-password">
-                        <label for="register-password">Senha</label>
-                        <input type="password" id="register-password" name="password"
-                            placeholder="Mínimo 8 caracteres (letra e número)" minlength="8" required>
-                        <p class="invalid-feedback" id="password-error">A senha deve ter no mínimo 8 caracteres,
-                            incluindo letra e número.</p>
-                    </div>
-
-                    <div class="input-group" id="group-confirm-password">
-                        <label for="register-confirm-password">Confirme a Senha</label>
-                        <input type="password" id="register-confirm-password" name="confirmPassword" required>
-                        <p class="invalid-feedback" id="confirm-password-error">As senhas não conferem.</p>
-                    </div>
-
-                    <p id="register-error" class="invalid-feedback" style="display: none; text-align: center;"></p>
-
-                    <button type="submit" class="btn btn-primary btn-lg btn-full" style="margin-top: 1rem;">
-                        Cadastrar
-                    </button>
-
-                    <p class="text-center" style="margin-top: 1rem;">
-                        Já tem conta?
-                        <a href="login.html" class="link-primary">Faça login</a>
+                    <p style="text-align: center;">
+                        Já tem uma conta? <a href="login.html" class="link-primary">Faça Login</a>
                     </p>
-
                 </form>
-            </div> </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer-component">

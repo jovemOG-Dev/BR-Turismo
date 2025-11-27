@@ -27,11 +27,12 @@
                     <li><a href="contact.html">Contato</a></li>
                 </ul>
             </nav>
-
-            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
-                Login
-            </a>
-
+            
+            <div class="header-actions">
+                <a href="cart.html" class="btn btn-secondary btn-sm cart-link">Carrinho</a>
+                <a href="user-panel.html" id="header-auth-link" class="btn btn-primary btn-sm auth-status">Entrar</a>
+            </div>
+            
             <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
                 <span></span><span></span><span></span>
             </button>
@@ -78,12 +79,6 @@
 
             <div class="package-grid promo-grid">
             </div>
-
-            <div class="see-all-packages-btn">
-                <a href="results.html" class="btn btn-secondary btn-lg">
-                    Ver Todos os Pacotes
-                </a>
-            </div>
         </section>
 
     </main>
@@ -125,8 +120,17 @@
         </div>
     </footer>
 
-    <script type="module" src="./src/js/components/menu-toggle.js"></script>
-    <script type="module" src="./src/js/pages/home.js"></script>
+    <script type="module">
+        import { setupMenuToggle } from './src/js/components/menu-toggle.js';
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
+        import { initHomePage } from './src/js/pages/home.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();
+            initHeaderAuth(); // Chamada para atualizar o link
+            initHomePage();
+        });
+    </script>
 </body>
 
 </html>

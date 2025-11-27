@@ -6,27 +6,22 @@
 
 /* 1. Layout Principal (Centraliza e restringe a largura) */
 .auth-page-content {
-    /* Largura máxima padrão para o formulário */
-    max-width: 500px;
-    
-    /* Espaçamento vertical grande para dar destaque ao formulário */
-    padding-top: var(--space-xl);
-    padding-bottom: var(--space-xl);
-    margin: 0 auto; /* Centraliza, mas o .container já faz isso */
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 /* 2. Estilo de Card (Wrapper) para o Formulário de Login/Cadastro */
 .auth-card-wrapper {
-    /* Simula bg-white */
-    background-color: var(--color-white); 
-    /* Simula rounded-lg */
-    border-radius: var(--border-radius-md); 
-    /* Sombra para dar profundidade */
-    box-shadow: var(--shadow-sm); 
-    /* Padding interno */
-    padding: var(--space-xl); 
-    /* Borda sutil */
-    border: 1px solid var(--color-border);
+    background-color: var(--color-white);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    width: 100%;
 }
 
 /* 3. Estilo do Componente Formulário */
@@ -35,6 +30,18 @@
     flex-direction: column;
     gap: var(--space-lg); /* Espaçamento entre os campos */
     margin: 0; 
+}
+
+.form-grid-2 {
+    display: grid;
+    /* Colunas no mobile: 1 coluna */
+    grid-template-columns: 1fr; 
+    gap: var(--space-md);
+}
+
+.form-grid-2 .input-group {
+    display: flex;
+    flex-direction: column;
 }
 
 /* 4. Utilities Específicas */
@@ -71,4 +78,44 @@
 
 .input-group.error .invalid-feedback {
     display: block; /* Exibe se o grupo de input tiver a classe .error */
+}
+
+@media (min-width: 600px) {
+    .form-grid-2 {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (min-width: 900px) {
+    .auth-card-wrapper {
+        max-width: 700px; /* deixa o card mais "horizontal" */
+    }
+}
+
+.input-with-button {
+    display: flex;
+    gap: 0.5rem; /* Espaço entre o input e o botão */
+}
+
+.input-with-button input[type="text"] {
+    flex-grow: 1; /* Faz o input ocupar o espaço restante */
+}
+
+.input-with-button .btn-sm {
+    /* Garante que o botão tenha uma altura visualmente alinhada ao input */
+    align-self: flex-end; 
+    min-width: 90px;
+}
+
+@media (max-width: 650px) {
+    .auth-card-wrapper {
+        padding: 2rem 1.5rem;
+    }
+    .auth-form-component .form-grid-2 {
+        grid-template-columns: 1fr; /* Muda para 1 coluna em telas menores */
+    }
+    /* Ocupa a coluna única quando o grid colapsa */
+    .auth-form-component .form-grid-2 > .input-group[style*="grid-column: span 2"] {
+        grid-column: auto !important; 
+    }
 }

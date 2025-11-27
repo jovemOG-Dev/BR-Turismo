@@ -32,9 +32,10 @@
                 </ul>
             </nav>
 
-            <a href="login.html" class="btn btn-secondary btn-sm" style="margin-left: auto;">
-                Login
-            </a>
+            <div class="header-actions">
+                <a href="cart.html" class="btn btn-secondary btn-sm cart-link">Carrinho</a>
+                <a href="user-panel.html" id="header-auth-link" class="btn btn-primary btn-sm auth-status">Entrar</a>
+            </div>
 
             <button id="menu-toggle" aria-expanded="false" aria-controls="main-nav-list">
                 <span></span><span></span><span></span>
@@ -43,37 +44,41 @@
     </header>
 
     <main>
-        <div class="container" style="max-width: 500px; padding: 2.5rem 0;">
-            <h1 class="text-center">Acesse sua Conta</h1>
-            
-            <div class="auth-card-wrapper"> 
+        <div class="container login-page-content">
+            <div class="auth-card-wrapper">
+                <h1 class="text-center">Acessar Conta</h1>
+
                 <form id="login-form" class="auth-form-component">
-                    
+
                     <div class="input-group">
                         <label for="login-email">E-mail</label>
                         <input type="email" id="login-email" name="email" placeholder="seu@email.com" required>
+                        <p class="invalid-feedback" id="email-error">Por favor, insira um e-mail válido.</p>
                     </div>
-                    
+
                     <div class="input-group">
                         <label for="login-password">Senha</label>
-                        <input type="password" id="login-password" name="password" placeholder="Mínimo 8 caracteres" required>
+                        <input type="password" id="login-password" name="password" placeholder="Sua senha" required>
+                        <p class="invalid-feedback" id="password-error">A senha deve ter pelo menos 8 caracteres.</p>
                     </div>
-                    
-                    <p id="login-error" class="invalid-feedback" style="display: none;"></p>
+
+                    <p id="login-error" class="invalid-feedback"
+                        style="display: none; text-align: center; margin-bottom: 1rem;"></p>
 
                     <button type="submit" class="btn btn-primary btn-lg btn-full">
                         Entrar
                     </button>
-                    
+
                     <p class="text-center" style="margin-top: 1rem;">
-                        Não tem conta? 
-                        <a href="register.html" class="link-primary">Cadastre-se agora</a>
+                        Não tem conta?
+                        <a href="register.html" class="link-primary">Cadastre-se</a>
                     </p>
-                    
+
                 </form>
             </div>
         </div>
     </main>
+
     <footer class="footer-component">
         <div class="container">
             <div class="footer-links">
@@ -111,8 +116,17 @@
         </div>
     </footer>
 
+    <script type="module">
+        import { setupMenuToggle } from './src/js/components/menu-toggle.js';
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; // Importar o header auth
+        import { initLoginPage } from './src/js/pages/login.js'; // Importar o novo módulo
 
-    <script type="module" src="./src/js/pages/login.js"></script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMenuToggle();
+            initHeaderAuth(); // Atualiza o header (ex: se o usuário já estiver logado acidentalmente)
+            initLoginPage();  // Inicializa a lógica de login
+        });
+    </script>
 </body>
 
 </html>

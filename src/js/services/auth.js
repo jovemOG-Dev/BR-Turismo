@@ -100,6 +100,16 @@ const getCurrentUser = () => {
 };
 
 /**
+ * Desloga o usuário e redireciona para a URL especificada.
+ * Adicionado para suportar o botão de logout no painel do usuário.
+ * @param {string} url - URL para redirecionar após o logout.
+ */
+const logoutAndRedirect = (url) => {
+    logout();
+    window.location.href = url || '/';
+};
+
+/**
  * Inicializa um usuário ADMIN mock (se não existir) para fins de demonstração.
  */
 const initMockUsers = () => {
@@ -129,5 +139,6 @@ export const AuthService = {
     login,
     register,
     logout,
+    logoutAndRedirect,
     getCurrentUser
 };
