@@ -7,6 +7,7 @@
 // Chaves de armazenamento
 const STORAGE_KEYS = {
     USERS: 'brTurismo_users',
+    PACKAGES: 'brTurismo_packages',
     CART: 'brTurismo_cart',
     SESSION: 'brTurismo_session'
 };

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Detalhes do Pacote | BR Turismo</title>
-    
+
     <link rel="stylesheet" href="./src/css/base.css">
     <link rel="stylesheet" href="./src/css/components/header.css">
     <link rel="stylesheet" href="./src/css/components/form.css">
@@ -12,10 +13,11 @@
     <link rel="stylesheet" href="./src/css/components/footer.css">
     <link rel="icon" type="image/png" href="./src/assets/images/icon.png">
 
-    <link rel="stylesheet" href="./src/css/pages/details.css"> 
+    <link rel="stylesheet" href="./src/css/pages/details.css">
 </head>
+
 <body>
-    
+
     <header class="header-component">
         <div class="container">
             <a href="index.html" class="logo-placeholder">BR TURISMO</a>
@@ -43,31 +45,32 @@
     <main id="package-details-main">
         <div class="container package-details-layout">
             <section id="package-info" aria-labelledby="package-title">
-                
+
                 <div class="details-header">
                     <h1 id="package-title">Carregando Pacote...</h1>
                     <div id="package-rating" class="rating-display"></div>
                 </div>
 
-                <div class="main-image-wrapper">
-                    <img id="package-main-image" src="" alt="Imagem de Destino" width="1000" height="600" loading="eager">
-                </div>
-
                 <div class="details-content-wrapper">
-                    
+
                     <article id="package-content" class="package-main-info">
-                        
+
                         <h2>Sobre o Destino e o Pacote</h2>
                         <p id="package-description" class="lead-description">
                             Detalhes do pacote e informações sobre o destino...
                         </p>
-                        
+
                         <h3>Inclusões e Roteiro</h3>
                         <ul id="package-inclusions" class="feature-list">
                             <li>Aéreo de Ida e Volta (Simulado)</li>
                             <li>3 Noites de Hospedagem (Simulado)</li>
                             <li>Café da Manhã Incluído</li>
                         </ul>
+
+                        <div class="main-image-wrapper">
+                            <img id="package-main-image" src="" alt="Imagem de Destino" width="1000" height="600"
+                                loading="eager">
+                        </div>
 
                         <h3>Avaliações de Clientes (Mock)</h3>
                         <div id="customer-reviews">
@@ -78,13 +81,13 @@
 
                     <aside id="booking-sidebar" class="booking-aside" aria-label="Opções de Reserva">
                         <h3>Reserve seu Pacote</h3>
-                        
+
                         <form id="booking-form">
                             <div class="price-box">
                                 <p class="starting-price">Preço por pessoa a partir de:</p>
                                 <span id="package-price" class="price-highlight">R$ 0,00</span>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="booking-date">Data da Viagem:</label>
                                 <input type="date" id="booking-date" required>
@@ -93,9 +96,10 @@
                                 <label for="travelers-count">Número de Viajantes:</label>
                                 <input type="number" id="travelers-count" min="1" value="1" required>
                             </div>
-                            
-                            <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$ 0,00</strong></p>
-                            
+
+                            <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$
+                                    0,00</strong></p>
+
                             <button type="submit" id="add-to-cart-btn" class="btn btn-primary btn-lg btn-block">
                                 Finalizar Reserva
                             </button>
@@ -110,7 +114,7 @@
             </section>
         </div>
     </main>
-    
+
     <footer class="footer-component">
         <div class="container">
             <div class="footer-links">
@@ -150,7 +154,7 @@
 
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js';
-        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
+        import { initHeaderAuth } from './src/js/components/header-auth.js';
         import { initDetailsPage } from './src/js/pages/details.js';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -161,4 +165,5 @@
     </script>
     </script>
 </body>
+
 </html>

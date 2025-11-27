@@ -3,10 +3,19 @@
  * LÓGICA DE PÁGINA: admin-panel.html
  * Responsabilidade: Gerenciar o painel administrativo (CRUD de Pacotes e Usuários).
  */
+
 import { AuthService } from '../services/auth.js';
 import { StorageService } from '../services/storage.js';
+import { PackageService } from '../services/package.js'; 
+import { Validator } from '../services/validator.js'; 
 
-// --- MOCK/SIMULAÇÃO DE SERVIÇOS ADMIN ---
+// Elementos globais
+const mainContent = document.getElementById('main-content');
+const navLinks = document.querySelectorAll('#panel-sidebar a[data-target]');
+const adminLogoutBtn = document.getElementById('logout-btn');
+
+
+// --- MOCKS/SIMULAÇÃO DE SERVIÇOS ADMIN (APENAS USUÁRIOS) ---
 
 /**
  * MOCK: Obtém lista de usuários (exceto o próprio admin)
@@ -17,44 +26,215 @@ const getMockUsers = (adminUser) => {
     return allUsersData.filter(u => u.id !== adminUser.id);
 };
 
-/**
- * MOCK: Obtém uma lista simulada de pacotes.
- */
-const getMockPackages = () => ([
-    { id: 'pkg-001', title: 'Praias do Nordeste', price: 1899.90, location: 'Maceió, AL', status: 'Ativo' },
-    { id: 'pkg-002', title: 'Serra Gaúcha Romântica', price: 2450.00, location: 'Gramado, RS', status: 'Ativo' },
-    { id: 'pkg-003', title: 'Aventura na Amazônia', price: 1200.00, location: 'Manaus, AM', status: 'Rascunho' },
-    { id: 'pkg-007', title: 'Pantanal Selvagem', price: 3500.00, location: 'Cuiabá, MT', status: 'Inativo' },
-]);
-
-// --- ELEMENTOS DOM E LÓGICA PRINCIPAL ---
-
-const mainContent = document.getElementById('panel-content');
-const navLinks = document.querySelectorAll('.panel-nav-item');
+// --- FUNÇÕES DE UTILITY ---
 
 /**
- * 1. Protege a rota: redireciona se não for ADMIN.
- * @returns {object|null} Usuário ADMIN logado ou null.
+ * 1. Verifica se o usuário logado tem permissão de Admin.
  */
 const checkAdminAccess = () => {
-    const user = AuthService.getCurrentUser();
-    if (!user || !user.isAdmin) {
-        alert("Acesso Negado: Você não tem permissão de administrador.");
-        window.location.href = '/login.html';
+    const adminUser = AuthService.getCurrentUser();
+    
+    if (!adminUser || adminUser.role !== 'admin') {
+        alert("Acesso negado. Você deve ser um administrador para acessar esta página.");
+        window.location.href = 'login.html'; // Redireciona para o login
         return null;
     }
-    return user;
+
+    // Configura o botão de logout
+    if (adminLogoutBtn) {
+        adminLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            AuthService.logout();
+            window.location.href = 'index.html';
+        });
+    }
+
+    return adminUser;
 };
 
 /**
- * 2. Renderiza a seção de Gerenciamento de Pacotes.
+ * Função utilitária para exibir erros de validação no formulário.
+ */
+const displayFormErrors = (form, errors) => {
+    form.querySelectorAll('.error-message').forEach(el => el.remove());
+    form.querySelectorAll('.input-group input, .input-group textarea, .input-group select').forEach(input => {
+        input.classList.remove('input-error');
+    });
+
+    Object.keys(errors).forEach(key => {
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.classList.add('input-error');
+            const errorElement = document.createElement('p');
+            errorElement.className = 'error-message';
+            errorElement.style.color = 'var(--color-danger)';
+            errorElement.style.fontSize = '0.9em';
+            errorElement.textContent = errors[key];
+            input.closest('.input-group').appendChild(errorElement);
+        }
+    });
+};
+
+// --- HANDLERS E RENDERS DE PACOTES (CRUD LÓGICA) ---
+
+/**
+ * Gerencia a exclusão de um pacote. (FUNÇÃO DELETE)
+ * @param {string} id - ID do pacote a excluir.
+ */
+const handleDeletePackage = (id) => {
+    const pkgToDelete = PackageService.getPackageById(id);
+    if (!pkgToDelete) {
+        alert(`Erro: Pacote ID ${id} não encontrado.`);
+        return;
+    }
+
+    if (confirm(`Tem certeza que deseja EXCLUIR o pacote: "${pkgToDelete.title}" (ID: ${id})? Essa ação é irreversível.`)) {
+        if (PackageService.deletePackage(id)) {
+            alert(`Pacote "${pkgToDelete.title}" excluído com sucesso.`);
+            handleNavigation('packages'); // Recarrega a lista
+        } else {
+            alert("Erro ao excluir o pacote.");
+        }
+    }
+};
+
+/**
+ * Gerencia o redirecionamento e a renderização do formulário para edição. (FUNÇÃO UPDATE)
+ * @param {string} id - ID do pacote a editar.
+ */
+const handleEditPackage = (id) => {
+    const packageToEdit = PackageService.getPackageById(id);
+    if (packageToEdit) {
+        renderCreatePackageForm(packageToEdit);
+    } else {
+        alert(`Pacote com ID ${id} não encontrado.`);
+        handleNavigation('packages');
+    }
+};
+
+/**
+ * Gerencia a submissão do formulário de criação/edição de pacotes. (ADAPTADA PARA CREATE/UPDATE)
+ * @param {Event} e - Evento de submissão.
+ * @param {string | null} packageId - ID do pacote sendo editado, ou null para criação.
+ */
+const handlePackageFormSubmit = (e, packageId) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // 1. Validação
+    const { isValid, errors } = Validator.validatePackage(data);
+    displayFormErrors(form, errors);
+
+    if (!isValid) {
+        alert("Por favor, corrija os erros no formulário antes de salvar.");
+        return;
+    }
+
+    // 2. Criação (CREATE) ou Atualização (UPDATE)
+    try {
+        let title = data.title;
+        
+        if (packageId) {
+            // Modo UPDATE
+            PackageService.updatePackage(packageId, data);
+            alert(`Pacote "${title}" (ID: ${packageId}) atualizado com sucesso!`);
+        } else {
+            // Modo CREATE
+            PackageService.createPackage(data);
+            alert(`Pacote "${title}" criado com sucesso e salvo no localStorage!`);
+            form.reset();
+        }
+        
+        // 3. Retorna à lista de pacotes após a operação
+        handleNavigation('packages'); 
+    } catch (error) {
+        console.error("Erro ao salvar pacote:", error);
+        alert("Ocorreu um erro ao salvar o pacote. Verifique o console.");
+    }
+};
+
+/**
+ * Renderiza o formulário de criação/edição de pacotes. (ADAPTADA PARA CREATE/UPDATE)
+ * @param {Package | null} packageData - Dados do pacote para edição, ou null para criação.
+ */
+const renderCreatePackageForm = (packageData = null) => {
+    const isEditMode = packageData !== null;
+    const formTitle = isEditMode ? `Editar Pacote #${packageData.id}` : 'Criar Novo Pacote';
+    const submitButtonText = isEditMode ? 'Salvar Alterações' : 'Salvar Novo Pacote';
+
+    const formattedPrice = isEditMode ? packageData.price.toFixed(2) : '';
+    const formattedRating = isEditMode ? packageData.rating : '5.0';
+
+
+    mainContent.innerHTML = `
+        <h2 class="section-title">${formTitle}</h2>
+        <a href="#" class="btn btn-secondary btn-sm" data-action="back-to-packages">← Voltar à Lista</a>
+        <form id="package-form" class="form-component" style="margin-top: var(--space-xl);">
+            ${isEditMode ? `<input type="hidden" id="package-id" name="packageId" value="${packageData.id}">` : ''}
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="title">Título do Pacote *</label>
+                    <input type="text" id="title" name="title" required maxlength="100" value="${packageData?.title || ''}">
+                </div>
+                
+                <div class="input-group">
+                    <label for="location">Localização (Cidade, UF) *</label>
+                    <input type="text" id="location" name="location" required maxlength="50" value="${packageData?.location || ''}">
+                </div>
+
+                <div class="input-group">
+                    <label for="price">Preço Base (R$) *</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0.01" required value="${formattedPrice}">
+                </div>
+                
+                <div class="input-group">
+                    <label for="rating">Avaliação Inicial (1.0 a 5.0)</label>
+                    <input type="number" id="rating" name="rating" step="0.1" min="1.0" max="5.0" value="${formattedRating}">
+                </div>
+                
+                <div class="input-group full-width">
+                    <label for="imageUrl">URL da Imagem *</label>
+                    <input type="url" id="imageUrl" name="imageUrl" required value="${packageData?.imageUrl || ''}">
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="description">Descrição Detalhada *</label>
+                    <textarea id="description" name="description" rows="4" required maxlength="500">${packageData?.description || ''}</textarea>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg">${submitButtonText}</button>
+            </div>
+            <p class="disclaimer-text">* Campos obrigatórios.</p>
+        </form>
+    `;
+    
+    // Configura listeners
+    document.getElementById('package-form').addEventListener('submit', (e) => {
+        handlePackageFormSubmit(e, packageData ? packageData.id : null);
+    });
+
+    document.querySelector('[data-action="back-to-packages"]').addEventListener('click', (e) => {
+        e.preventDefault();
+        handleNavigation('packages');
+    });
+};
+
+
+/**
+ * 2. Renderiza a seção de Gerenciamento de Pacotes. (ATUALIZADA PARA READ REAL E LISTENERS CRUD)
  */
 const renderPackageManagement = () => {
-    const packages = getMockPackages();
+    // Usa o serviço REAL para obter os pacotes
+    const packages = PackageService.getAllPackages(); 
     
     const tableRows = packages.map(pkg => {
-        const statusClass = pkg.status === 'Ativo' ? 'status-success' : 
-                            pkg.status === 'Inativo' ? 'status-danger' : 'status-warning';
+        const status = 'Ativo';
+        const statusClass = 'status-success'; 
         const formattedPrice = pkg.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         return `
             <tr>
@@ -62,7 +242,7 @@ const renderPackageManagement = () => {
                 <td data-label="Título">${pkg.title}</td>
                 <td data-label="Local">${pkg.location}</td>
                 <td data-label="Preço">${formattedPrice}</td>
-                <td data-label="Status"><span class="status-badge ${statusClass}">${pkg.status}</span></td>
+                <td data-label="Status"><span class="status-badge ${statusClass}">${status}</span></td>
                 <td data-label="Ações">
                     <button class="btn btn-secondary btn-sm" data-action="edit-pkg" data-id="${pkg.id}">Editar</button>
                     <button class="btn btn-danger btn-sm" data-action="delete-pkg" data-id="${pkg.id}">Excluir</button>
@@ -92,67 +272,93 @@ const renderPackageManagement = () => {
                 <tbody>${tableRows}</tbody>
             </table>
         </div>
-        <p class="disclaimer-text" style="margin-top: var(--space-md);">Ações de CRUD são simuladas.</p>
+        <p class="disclaimer-text" style="margin-top: var(--space-md);">O CRUD de Pacotes está totalmente funcional (CREATE, READ, UPDATE, DELETE).</p>
     `;
     mainContent.innerHTML = contentHTML;
     
-    // Simulação de Listeners
+    // Configura Listeners de Ação (ATUALIZADO PARA CREATE/UPDATE/DELETE)
     mainContent.querySelectorAll('[data-action]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const action = e.currentTarget.dataset.action;
             const id = e.currentTarget.dataset.id;
-            alert(`Ação Simulado: ${action} no item ID ${id || ''}`);
+            
+            if (action === 'create-pkg') {
+                renderCreatePackageForm(); 
+            } else if (action === 'edit-pkg') {
+                handleEditPackage(id); 
+            } else if (action === 'delete-pkg') {
+                handleDeletePackage(id); 
+            } else {
+                alert(`Ação Simulado: ${action} no item ID ${id || ''}`);
+            }
         });
     });
 };
 
+
 /**
- * 3. Renderiza a seção de Gerenciamento de Usuários.
+ * 3. Renderiza a seção de Gerenciamento de Usuários (MOCK).
  */
 const renderUserManagement = (adminUser) => {
     const users = getMockUsers(adminUser);
     
     const tableRows = users.map(user => {
+        const status = user.active ? 'Ativo' : 'Inativo';
+        const statusClass = user.active ? 'status-success' : 'status-danger'; 
         return `
             <tr>
+                <td data-label="ID">${user.id}</td>
                 <td data-label="Nome">${user.name}</td>
                 <td data-label="Email">${user.email}</td>
-                <td data-label="Membro Desde">${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                <td data-label="Perfil">${user.role}</td>
+                <td data-label="Status"><span class="status-badge ${statusClass}">${status}</span></td>
                 <td data-label="Ações">
-                    <button class="btn btn-secondary btn-sm" data-action="reset-pwd" data-id="${user.id}">Resetar Senha</button>
-                    <button class="btn btn-danger btn-sm" data-action="delete-user" data-id="${user.id}">Deletar</button>
+                    <button class="btn btn-secondary btn-sm" data-action="edit-user" data-id="${user.id}">Editar</button>
+                    <button class="btn btn-danger btn-sm" data-action="block-user" data-id="${user.id}">Bloquear</button>
                 </td>
             </tr>
         `;
     }).join('');
 
-    const contentHTML = `
-        <h2 class="section-title">Usuários Cadastrados</h2>
+    mainContent.innerHTML = `
+        <h2 class="section-title">Gerenciamento de Usuários</h2>
+        <p class="disclaimer-text">Simulação: Usuários são lidos do localStorage. Ações de Editar/Bloquear são simuladas.</p>
 
         <div class="responsive-table-container">
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nome</th>
                         <th>Email</th>
-                        <th>Membro Desde</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>${tableRows}</tbody>
             </table>
         </div>
-        <p class="disclaimer-text" style="margin-top: var(--space-md);">O único usuário não listado é você (Admin Demo).</p>
     `;
-    mainContent.innerHTML = contentHTML;
+
+    // Listeners de ação simulada (Editar/Bloquear)
+    mainContent.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            alert(`Ação simulada: ${e.currentTarget.dataset.action} no usuário ID ${e.currentTarget.dataset.id}`);
+        });
+    });
 };
 
 /**
- * 4. Gerencia a mudança de navegação no painel.
+ * 4. Gerencia a mudança de navegação no painel. (ATUALIZADA)
  */
 const handleNavigation = (target) => {
     navLinks.forEach(link => link.classList.remove('active'));
-    document.querySelector(`[data-target="${target}"]`).classList.add('active');
+    
+    const targetElement = document.querySelector(`[data-target="${target}"]`);
+    if (targetElement) {
+        targetElement.classList.add('active');
+    }
 
     const adminUser = checkAdminAccess();
     if (!adminUser) return;
@@ -165,12 +371,13 @@ const handleNavigation = (target) => {
             renderUserManagement(adminUser);
             break;
         case 'dashboard':
-            // Simples dashboard de boas-vindas
+            // Dashboard agora usa a contagem REAL de pacotes
+            const activePackagesCount = PackageService.getAllPackages().length;
             mainContent.innerHTML = `<h2 class="section-title">Bem-vindo, ${adminUser.name}</h2>
                                      <p>Este é o Painel de Controle Administrativo. Use a navegação lateral para gerenciar Pacotes e Usuários.</p>
                                      <div class="info-card" style="margin-top: var(--space-xl);">
                                         <h3>Pacotes Ativos</h3>
-                                        <p style="font-size: 2rem; font-weight: bold;">3</p>
+                                        <p style="font-size: 2rem; font-weight: bold;">${activePackagesCount}</p>
                                      </div>`;
             break;
         default:

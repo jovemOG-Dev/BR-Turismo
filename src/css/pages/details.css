@@ -6,6 +6,22 @@
     padding: var(--space-xl) 0;
 }
 
+.main-image-wrapper {
+    margin: var(--space-lg) 0; /* Espaçamento da imagem */
+    /* Garante que a imagem se ajuste à largura do seu contêiner (o artigo) */
+    width: 100%; 
+    overflow: hidden;
+    border-radius: var(--border-radius-md); /* Borda arredondada para estética */
+}
+
+#package-main-image {
+    display: block;
+    width: 100%;
+    /* Reduz a altura máxima para que ela não domine tanto a tela */
+    max-height: 400px; 
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+}
+
 /* --- Título Principal --- */
 .package-details-layout h1 {
     color: var(--color-brand-primary);

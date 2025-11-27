@@ -14,7 +14,7 @@ const MOCK_PACKAGE_DETAILS = [
         title: 'Praias do Nordeste: Maceió Fantástica',
         description: 'Maceió é famosa por suas praias urbanas, piscinas naturais de Pajuçara e a culinária alagoana. Este pacote de 7 dias e 6 noites inclui passagens aéreas, transfer e hospedagem no Hotel Ponta Verde. Desfrute de um passeio de jangada até as piscinas naturais.',
         price: 1899.90,
-        imageUrl: '../../assets/images/mock/maceio-details.jpg',
+        imageUrl: 'https://res.cloudinary.com/djeui5p1t/image/upload/f_auto,fl_progressive,c_fill,h_490,w_1080/v1756143208/1920x1280-praia-paripueira-maceio_edi3kc.jpg',
         rating: 4.5,
         location: 'Maceió, AL',
         details: {
@@ -27,7 +27,7 @@ const MOCK_PACKAGE_DETAILS = [
         title: 'Recife: História e Praias',
         description: 'Recife e Olinda oferecem um mergulho na história colonial e praias urbanas vibrantes. Este pacote foca na cultura e inclui 4 dias de estadia em Boa Viagem, com city tour guiado pelo Recife Antigo e Olinda, Patrimônio da Humanidade.',
         price: 980.50,
-        imageUrl: 'https://www.viajenaviagem.com/wp-content/uploads/2023/12/maceio-cadeira-gigante-16x9-1.jpg.webp',
+        imageUrl: 'https://www.viajenaviagem.com/wp-content/uploads/2024/02/recife-boa-viagem-16x9-1.jpg.webp',
         rating: 4.1,
         location: 'Recife, PE',
         details: {
@@ -62,7 +62,7 @@ const renderPackageDetails = (pkg) => {
 
     // 2.3 Atualiza Inclusões
     const inclusionsList = document.getElementById('package-inclusions');
-    if (inclusionsList) {
+    if (inclusionsList && pkg.details && pkg.details.inclusions && Array.isArray(pkg.details.inclusions)) {
         // Limpa as inclusões estáticas do HTML
         inclusionsList.innerHTML = ''; 
         pkg.details.inclusions.forEach(item => {
@@ -84,7 +84,7 @@ const renderPackageDetails = (pkg) => {
             e.preventDefault();
             // LÓGICA FUTURA: adicionar ao carrinho (CartService.addItem(pkg.id, date, travelers))
             alert(`Pacote ${pkg.title} (R$ ${pkg.price}) adicionado ao carrinho! (Simulação)`);
-            window.location.href = '/checkout.html'; 
+            window.location.href = '/cart.html'; 
         });
     }
 
