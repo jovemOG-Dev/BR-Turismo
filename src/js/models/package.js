@@ -3,7 +3,7 @@
  * Representa um pacote de viagem.
  */
 export class Package {
-    constructor({ id, title, description, price, imageUrl, rating, location }) {
+    constructor({ id, title, description, price, imageUrl, rating, location, status }) {
         this.id = id || `pkg-${Date.now()}`;
         this.title = title;
         this.description = description;
@@ -11,5 +11,6 @@ export class Package {
         this.imageUrl = imageUrl;
         this.rating = rating; // 1 a 5 estrelas
         this.location = location;
+        this.status = status || 'Ativo'; // disponível, esgotado, ativo
     }
 }

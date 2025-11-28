@@ -146,7 +146,8 @@ const updatePackage = (id, updatedData) => {
         price: parseFloat(updatedData.price), // Garante que o tipo seja numérico
         imageUrl: updatedData.imageUrl,
         rating: parseFloat(updatedData.rating || 5.0),
-        location: updatedData.location
+        location: updatedData.location,
+        status: updatedData.status
     });
 
     allPackages[index] = packageToUpdate;

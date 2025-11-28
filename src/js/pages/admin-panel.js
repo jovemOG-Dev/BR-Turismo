@@ -6,12 +6,12 @@
 
 import { AuthService } from '../services/auth.js';
 import { StorageService } from '../services/storage.js';
-import { PackageService } from '../services/package.js'; 
-import { Validator } from '../services/validator.js'; 
+import { PackageService } from '../services/package.js';
+import { Validator } from '../services/validator.js';
 
 // Elementos globais
-const mainContent = document.getElementById('main-content');
-const navLinks = document.querySelectorAll('#panel-sidebar a[data-target]');
+const mainContent = document.getElementById('panel-content');
+const navLinks = document.querySelectorAll('#panel-sidebar .panel-nav-item'); // Alterado para selecionar o LI com data-target
 const adminLogoutBtn = document.getElementById('logout-btn');
 
 
@@ -33,20 +33,21 @@ const getMockUsers = (adminUser) => {
  */
 const checkAdminAccess = () => {
     const adminUser = AuthService.getCurrentUser();
-    
+
     if (!adminUser || adminUser.role !== 'admin') {
         alert("Acesso negado. Você deve ser um administrador para acessar esta página.");
-        window.location.href = 'login.html'; // Redireciona para o login
+        window.location.href = 'user-panel.html'; // Redireciona para o login
         return null;
     }
 
     // Configura o botão de logout
     if (adminLogoutBtn) {
-        adminLogoutBtn.addEventListener('click', (e) => {
+        // Remove o listener anterior para evitar duplicação, embora no DOMContentLoaded não seja estritamente necessário
+        adminLogoutBtn.onclick = (e) => {
             e.preventDefault();
             AuthService.logout();
             window.location.href = 'index.html';
-        });
+        };
     }
 
     return adminUser;
@@ -105,6 +106,7 @@ const handleDeletePackage = (id) => {
 const handleEditPackage = (id) => {
     const packageToEdit = PackageService.getPackageById(id);
     if (packageToEdit) {
+        // Não altera a URL ao ir para o formulário
         renderCreatePackageForm(packageToEdit);
     } else {
         alert(`Pacote com ID ${id} não encontrado.`);
@@ -135,7 +137,7 @@ const handlePackageFormSubmit = (e, packageId) => {
     // 2. Criação (CREATE) ou Atualização (UPDATE)
     try {
         let title = data.title;
-        
+
         if (packageId) {
             // Modo UPDATE
             PackageService.updatePackage(packageId, data);
@@ -146,9 +148,10 @@ const handlePackageFormSubmit = (e, packageId) => {
             alert(`Pacote "${title}" criado com sucesso e salvo no localStorage!`);
             form.reset();
         }
-        
+
         // 3. Retorna à lista de pacotes após a operação
-        handleNavigation('packages'); 
+        // Chama handleNavigation('packages') para atualizar a view e a URL
+        handleNavigation('packages');
     } catch (error) {
         console.error("Erro ao salvar pacote:", error);
         alert("Ocorreu um erro ao salvar o pacote. Verifique o console.");
@@ -166,12 +169,19 @@ const renderCreatePackageForm = (packageData = null) => {
 
     const formattedPrice = isEditMode ? packageData.price.toFixed(2) : '';
     const formattedRating = isEditMode ? packageData.rating : '5.0';
+    const packageStatus = packageData?.status || 'Ativo';
+
+    // Remove a classe 'active' de todos os itens de navegação ao entrar no formulário
+    navLinks.forEach(link => link.classList.remove('active'));
 
 
     mainContent.innerHTML = `
+        <div class="form-header-actions"> 
         <h2 class="section-title">${formTitle}</h2>
         <a href="#" class="btn btn-secondary btn-sm" data-action="back-to-packages">← Voltar à Lista</a>
-        <form id="package-form" class="form-component" style="margin-top: var(--space-xl);">
+    </div>
+
+    <form id="package-form" class="form-component" style="margin-top: var(--space-xl);">
             ${isEditMode ? `<input type="hidden" id="package-id" name="packageId" value="${packageData.id}">` : ''}
 
             <div class="form-grid">
@@ -194,6 +204,15 @@ const renderCreatePackageForm = (packageData = null) => {
                     <label for="rating">Avaliação Inicial (1.0 a 5.0)</label>
                     <input type="number" id="rating" name="rating" step="0.1" min="1.0" max="5.0" value="${formattedRating}">
                 </div>
+
+                <div class="input-group">
+                    <label for="status">Status do Pacote *</label>
+                    <select id="status" name="status" required>
+                        <option value="Ativo" ${packageStatus === 'Ativo' ? 'selected' : ''}>Ativo</option>
+                        <option value="Esgotado" ${packageStatus === 'Esgotado' ? 'selected' : ''}>Esgotado</option>
+                        <option value="Cancelado" ${packageStatus === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
+                    </select>
+                </div>
                 
                 <div class="input-group full-width">
                     <label for="imageUrl">URL da Imagem *</label>
@@ -212,12 +231,13 @@ const renderCreatePackageForm = (packageData = null) => {
             <p class="disclaimer-text">* Campos obrigatórios.</p>
         </form>
     `;
-    
+
     // Configura listeners
     document.getElementById('package-form').addEventListener('submit', (e) => {
         handlePackageFormSubmit(e, packageData ? packageData.id : null);
     });
 
+    // O botão de voltar chama a navegação 'packages', mantendo o estado correto na URL.
     document.querySelector('[data-action="back-to-packages"]').addEventListener('click', (e) => {
         e.preventDefault();
         handleNavigation('packages');
@@ -225,16 +245,19 @@ const renderCreatePackageForm = (packageData = null) => {
 };
 
 
+
 /**
  * 2. Renderiza a seção de Gerenciamento de Pacotes. (ATUALIZADA PARA READ REAL E LISTENERS CRUD)
  */
 const renderPackageManagement = () => {
     // Usa o serviço REAL para obter os pacotes
-    const packages = PackageService.getAllPackages(); 
-    
+    const packages = PackageService.getAllPackages();
+
     const tableRows = packages.map(pkg => {
-        const status = 'Ativo';
-        const statusClass = 'status-success'; 
+        let statusClass = 'status-active';
+        if (pkg.status === 'Cancelado') statusClass = 'status-danger';
+        if (pkg.status === 'Esgotado') statusClass = 'status-warning';
+
         const formattedPrice = pkg.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         return `
             <tr>
@@ -242,7 +265,7 @@ const renderPackageManagement = () => {
                 <td data-label="Título">${pkg.title}</td>
                 <td data-label="Local">${pkg.location}</td>
                 <td data-label="Preço">${formattedPrice}</td>
-                <td data-label="Status"><span class="status-badge ${statusClass}">${status}</span></td>
+                <td data-label="Status"><span class="status-badge ${statusClass}">${pkg.status}</span></td>
                 <td data-label="Ações">
                     <button class="btn btn-secondary btn-sm" data-action="edit-pkg" data-id="${pkg.id}">Editar</button>
                     <button class="btn btn-danger btn-sm" data-action="delete-pkg" data-id="${pkg.id}">Excluir</button>
@@ -272,22 +295,21 @@ const renderPackageManagement = () => {
                 <tbody>${tableRows}</tbody>
             </table>
         </div>
-        <p class="disclaimer-text" style="margin-top: var(--space-md);">O CRUD de Pacotes está totalmente funcional (CREATE, READ, UPDATE, DELETE).</p>
     `;
     mainContent.innerHTML = contentHTML;
-    
+
     // Configura Listeners de Ação (ATUALIZADO PARA CREATE/UPDATE/DELETE)
     mainContent.querySelectorAll('[data-action]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const action = e.currentTarget.dataset.action;
             const id = e.currentTarget.dataset.id;
-            
+
             if (action === 'create-pkg') {
-                renderCreatePackageForm(); 
+                renderCreatePackageForm();
             } else if (action === 'edit-pkg') {
-                handleEditPackage(id); 
+                handleEditPackage(id);
             } else if (action === 'delete-pkg') {
-                handleDeletePackage(id); 
+                handleDeletePackage(id);
             } else {
                 alert(`Ação Simulado: ${action} no item ID ${id || ''}`);
             }
@@ -295,26 +317,24 @@ const renderPackageManagement = () => {
     });
 };
 
+// --- HANDLERS E RENDERS DE USUÁRIOS (CRUD LÓGICA) ---
 
 /**
  * 3. Renderiza a seção de Gerenciamento de Usuários (MOCK).
  */
 const renderUserManagement = (adminUser) => {
-    const users = getMockUsers(adminUser);
-    
+    const users = AuthService.getAllUsers();
+
     const tableRows = users.map(user => {
-        const status = user.active ? 'Ativo' : 'Inativo';
-        const statusClass = user.active ? 'status-success' : 'status-danger'; 
         return `
             <tr>
                 <td data-label="ID">${user.id}</td>
                 <td data-label="Nome">${user.name}</td>
                 <td data-label="Email">${user.email}</td>
                 <td data-label="Perfil">${user.role}</td>
-                <td data-label="Status"><span class="status-badge ${statusClass}">${status}</span></td>
                 <td data-label="Ações">
                     <button class="btn btn-secondary btn-sm" data-action="edit-user" data-id="${user.id}">Editar</button>
-                    <button class="btn btn-danger btn-sm" data-action="block-user" data-id="${user.id}">Bloquear</button>
+                    <button class="btn btn-danger btn-sm" data-action="delete-user" data-id="${user.id}">Excluir</button>
                 </td>
             </tr>
         `;
@@ -332,7 +352,6 @@ const renderUserManagement = (adminUser) => {
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Perfil</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -341,28 +360,111 @@ const renderUserManagement = (adminUser) => {
         </div>
     `;
 
-    // Listeners de ação simulada (Editar/Bloquear)
+    // Listeners de ações
     mainContent.querySelectorAll('[data-action]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            alert(`Ação simulada: ${e.currentTarget.dataset.action} no usuário ID ${e.currentTarget.dataset.id}`);
+            const action = e.currentTarget.dataset.action;
+            const id = e.currentTarget.dataset.id;
+            const name = e.currentTarget.dataset.name;
+
+            if (action === 'edit-user') {
+                const userToEdit = AuthService.getAllUsers().find(u => u.id === id);
+                if (userToEdit) {
+                    handleEditUser(userToEdit);
+                }
+            }
+
+            if (action === 'delete-user') {
+                handleDeleteUser(id, name);
+            }
         });
     });
 };
 
+
+/**
+ * Gerencia a exclusão de um usuário. (FUNÇÃO DELETE - NOVO)
+ * @param {string} userId - ID do usuário a excluir.
+ * @param {string} userName - Nome do usuário para confirmação.
+ */
+const handleDeleteUser = (userId, userName) => {
+    const adminUser = AuthService.getCurrentUser();
+
+    if (adminUser && adminUser.id === userId) {
+        alert("Atenção: Você não pode excluir a si mesmo enquanto estiver logado.");
+        return;
+    }
+
+    if (confirm(`Tem certeza que deseja EXCLUIR o usuário: "${userName}" (ID: ${userId})? Essa ação é irreversível.`)) {
+        if (AuthService.deleteUser(userId)) {
+            alert(`Usuário "${userName}" excluído com sucesso.`);
+            handleNavigation('users'); // Recarrega a lista
+        } else {
+            alert("Erro ao excluir o usuário. O ID pode não existir.");
+        }
+    }
+};
+
+/**
+ * Gerencia a edição de um usuário (UPDATE via prompt para a Role). (FUNÇÃO UPDATE - NOVO)
+ * @param {object} user - Objeto User a ser editado.
+ */
+const handleEditUser = (user) => {
+    const newRole = prompt(`Editando o Perfil (Role) do usuário: ${user.name}\n\nRole atual: ${user.role}\n\nDigite a nova role (admin ou user):`);
+
+    if (newRole === null) return; // Cancelado
+
+    const roleLower = newRole.toLowerCase().trim();
+    if (roleLower === 'admin' || roleLower === 'user') {
+        // Restrição lógica: O administrador não deve se rebaixar para 'user' via esta interface simples
+        const adminUser = AuthService.getCurrentUser();
+        if (adminUser.id === user.id && roleLower === 'user') {
+            alert("Ação Bloqueada: Você não pode remover suas próprias permissões de administrador através desta interface.");
+            return;
+        }
+
+        const updatedUser = AuthService.updateUser(user.id, { role: roleLower });
+
+        if (updatedUser) {
+            alert(`Perfil do usuário ${user.name} atualizado para: ${updatedUser.role.toUpperCase()}`);
+            handleNavigation('users'); // Recarrega a lista
+        } else {
+            alert("Erro ao atualizar o perfil. O usuário pode não existir.");
+        }
+    } else {
+        alert("Role inválida. Por favor, digite 'admin' ou 'user'.");
+    }
+};
+
 /**
  * 4. Gerencia a mudança de navegação no painel. (ATUALIZADA)
+ * * @param {string} target - O ID da seção a ser carregada (dashboard, packages, users).
+ * @param {boolean} updateUrl - Se deve atualizar a URL usando pushState (false em popstate).
  */
-const handleNavigation = (target) => {
+const handleNavigation = (target, updateUrl = true) => {
+    const adminUser = checkAdminAccess();
+    if (!adminUser) return;
+
+    // 1. Marca o link ativo na barra lateral
     navLinks.forEach(link => link.classList.remove('active'));
-    
-    const targetElement = document.querySelector(`[data-target="${target}"]`);
+
+    const targetElement = document.querySelector(`.panel-nav-item[data-target="${target}"]`);
     if (targetElement) {
         targetElement.classList.add('active');
     }
 
-    const adminUser = checkAdminAccess();
-    if (!adminUser) return;
+    // 2. Atualiza a URL (a menos que seja um evento popstate ou o dashboard)
+    if (updateUrl) {
+        let newUrl = window.location.pathname;
+        if (target !== 'dashboard') {
+            newUrl += `?view=${target}`;
+        }
 
+        // Usa history.pushState para mudar a URL sem recarregar a página
+        window.history.pushState({ view: target }, '', newUrl);
+    }
+
+    // 3. Renderiza o conteúdo
     switch (target) {
         case 'packages':
             renderPackageManagement();
@@ -381,27 +483,38 @@ const handleNavigation = (target) => {
                                      </div>`;
             break;
         default:
+            // Fallback para dashboard se o target for inválido
             handleNavigation('dashboard');
     }
 };
 
 /**
- * 5. Função de inicialização do módulo.
+ * 5. Função de inicialização do módulo. (ATUALIZADA)
  */
 export const initAdminPanel = () => {
     const adminUser = checkAdminAccess();
     if (!adminUser) return;
-    
-    // Configura listeners de navegação lateral
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+
+    // 1. Configura listeners de navegação lateral
+    navLinks.forEach(item => {
+        item.querySelector('a').addEventListener('click', (e) => {
             e.preventDefault();
-            const target = e.currentTarget.dataset.target;
-            handleNavigation(target);
+            const target = item.dataset.target;
+            handleNavigation(target); // Chama com updateUrl=true por padrão
         });
     });
 
-    // Renderiza a seção padrão ao carregar (Dashboard)
+    // 2. Configura o listener para o botão de voltar/avançar do navegador
+    window.addEventListener('popstate', (event) => {
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get('view') || 'dashboard';
+
+        // Chama a navegação, mas desabilita a atualização do history/URL
+        handleNavigation(target, false);
+    });
+
+    // 3. Renderiza a seção padrão ao carregar
     const initialTarget = new URLSearchParams(window.location.search).get('view') || 'dashboard';
-    handleNavigation(initialTarget);
+    // Chama a navegação com updateUrl=false para não criar uma entrada duplicada no history
+    handleNavigation(initialTarget, false);
 };
