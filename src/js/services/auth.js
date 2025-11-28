@@ -123,7 +123,8 @@ const initMockUsers = () => {
             phone: '99999999999',
             birthdate: '1980-01-01',
             passwordHash: 'admin123', // Senha de demonstração
-            isAdmin: true
+            isAdmin: true,
+            role: 'admin'
         });
         users.push(adminUser);
         saveAllUsers(users);

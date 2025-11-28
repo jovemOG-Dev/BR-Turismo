@@ -37,7 +37,7 @@ const updateHeaderAuthLink = () => {
     } else {
         // RF4: Usuário deslogado - Manter Login
         authLink.href = 'login.html';
-        authLink.textContent = 'Login';
+        authLink.textContent = 'Entrar';
         // Garante que o estilo secundário esteja presente se tiver sido removido (redundância segura)
         authLink.classList.add('btn', 'btn-secondary', 'btn-sm'); 
     }

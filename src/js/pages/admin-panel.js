@@ -10,8 +10,8 @@ import { PackageService } from '../services/package.js';
 import { Validator } from '../services/validator.js'; 
 
 // Elementos globais
-const mainContent = document.getElementById('main-content');
-const navLinks = document.querySelectorAll('#panel-sidebar a[data-target]');
+const mainContent = document.getElementById('panel-content');
+const navLinks = document.querySelectorAll('#panel-sidebar .panel-nav-item'); // Alterado para selecionar o LI com data-target
 const adminLogoutBtn = document.getElementById('logout-btn');
 
 
@@ -36,17 +36,18 @@ const checkAdminAccess = () => {
     
     if (!adminUser || adminUser.role !== 'admin') {
         alert("Acesso negado. Você deve ser um administrador para acessar esta página.");
-        window.location.href = 'login.html'; // Redireciona para o login
+        window.location.href = 'user-panel.html'; // Redireciona para o login
         return null;
     }
 
     // Configura o botão de logout
     if (adminLogoutBtn) {
-        adminLogoutBtn.addEventListener('click', (e) => {
+        // Remove o listener anterior para evitar duplicação, embora no DOMContentLoaded não seja estritamente necessário
+        adminLogoutBtn.onclick = (e) => {
             e.preventDefault();
             AuthService.logout();
             window.location.href = 'index.html';
-        });
+        };
     }
 
     return adminUser;
@@ -105,6 +106,7 @@ const handleDeletePackage = (id) => {
 const handleEditPackage = (id) => {
     const packageToEdit = PackageService.getPackageById(id);
     if (packageToEdit) {
+        // Não altera a URL ao ir para o formulário
         renderCreatePackageForm(packageToEdit);
     } else {
         alert(`Pacote com ID ${id} não encontrado.`);
@@ -148,6 +150,7 @@ const handlePackageFormSubmit = (e, packageId) => {
         }
         
         // 3. Retorna à lista de pacotes após a operação
+        // Chama handleNavigation('packages') para atualizar a view e a URL
         handleNavigation('packages'); 
     } catch (error) {
         console.error("Erro ao salvar pacote:", error);
@@ -166,6 +169,9 @@ const renderCreatePackageForm = (packageData = null) => {
 
     const formattedPrice = isEditMode ? packageData.price.toFixed(2) : '';
     const formattedRating = isEditMode ? packageData.rating : '5.0';
+
+    // Remove a classe 'active' de todos os itens de navegação ao entrar no formulário
+    navLinks.forEach(link => link.classList.remove('active'));
 
 
     mainContent.innerHTML = `
@@ -218,6 +224,7 @@ const renderCreatePackageForm = (packageData = null) => {
         handlePackageFormSubmit(e, packageData ? packageData.id : null);
     });
 
+    // O botão de voltar chama a navegação 'packages', mantendo o estado correto na URL.
     document.querySelector('[data-action="back-to-packages"]').addEventListener('click', (e) => {
         e.preventDefault();
         handleNavigation('packages');
@@ -351,18 +358,33 @@ const renderUserManagement = (adminUser) => {
 
 /**
  * 4. Gerencia a mudança de navegação no painel. (ATUALIZADA)
+ * * @param {string} target - O ID da seção a ser carregada (dashboard, packages, users).
+ * @param {boolean} updateUrl - Se deve atualizar a URL usando pushState (false em popstate).
  */
-const handleNavigation = (target) => {
+const handleNavigation = (target, updateUrl = true) => {
+    const adminUser = checkAdminAccess();
+    if (!adminUser) return;
+    
+    // 1. Marca o link ativo na barra lateral
     navLinks.forEach(link => link.classList.remove('active'));
     
-    const targetElement = document.querySelector(`[data-target="${target}"]`);
+    const targetElement = document.querySelector(`.panel-nav-item[data-target="${target}"]`);
     if (targetElement) {
         targetElement.classList.add('active');
     }
 
-    const adminUser = checkAdminAccess();
-    if (!adminUser) return;
-
+    // 2. Atualiza a URL (a menos que seja um evento popstate ou o dashboard)
+    if (updateUrl) {
+        let newUrl = window.location.pathname;
+        if (target !== 'dashboard') {
+            newUrl += `?view=${target}`;
+        }
+        
+        // Usa history.pushState para mudar a URL sem recarregar a página
+        window.history.pushState({ view: target }, '', newUrl);
+    }
+    
+    // 3. Renderiza o conteúdo
     switch (target) {
         case 'packages':
             renderPackageManagement();
@@ -381,27 +403,38 @@ const handleNavigation = (target) => {
                                      </div>`;
             break;
         default:
+            // Fallback para dashboard se o target for inválido
             handleNavigation('dashboard');
     }
 };
 
 /**
- * 5. Função de inicialização do módulo.
+ * 5. Função de inicialização do módulo. (ATUALIZADA)
  */
 export const initAdminPanel = () => {
     const adminUser = checkAdminAccess();
     if (!adminUser) return;
     
-    // Configura listeners de navegação lateral
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+    // 1. Configura listeners de navegação lateral
+    navLinks.forEach(item => {
+        item.querySelector('a').addEventListener('click', (e) => {
             e.preventDefault();
-            const target = e.currentTarget.dataset.target;
-            handleNavigation(target);
+            const target = item.dataset.target;
+            handleNavigation(target); // Chama com updateUrl=true por padrão
         });
     });
 
-    // Renderiza a seção padrão ao carregar (Dashboard)
+    // 2. Configura o listener para o botão de voltar/avançar do navegador
+    window.addEventListener('popstate', (event) => {
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get('view') || 'dashboard';
+        
+        // Chama a navegação, mas desabilita a atualização do history/URL
+        handleNavigation(target, false); 
+    });
+
+    // 3. Renderiza a seção padrão ao carregar
     const initialTarget = new URLSearchParams(window.location.search).get('view') || 'dashboard';
-    handleNavigation(initialTarget);
+    // Chama a navegação com updateUrl=false para não criar uma entrada duplicada no history
+    handleNavigation(initialTarget, false); 
 };
