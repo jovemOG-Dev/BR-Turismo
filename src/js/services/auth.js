@@ -27,7 +27,23 @@ const getAllUsers = () => {
  * @param {User[]} users - Lista de usuários.
  */
 const saveAllUsers = (users) => {
-    StorageService.set(USER_STORAGE_KEY, users);
+    // CORREÇÃO: Mapeia para um objeto simples antes de salvar
+    const usersToSave = users.map(user => {
+        // Se a classe User tiver um método para retornar dados simples (ex: getPublicData), use-o.
+        // Se não tiver, garantimos que salvamos as propriedades principais
+        return { 
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            cpf: user.cpf,
+            phone: user.phone,
+            birthdate: user.birthdate,
+            passwordHash: user.passwordHash,
+            isAdmin: user.isAdmin,
+            role: user.role
+        };
+    });
+    StorageService.set(USER_STORAGE_KEY, usersToSave);
 };
 
 /**
@@ -82,6 +98,60 @@ const register = (userData) => {
     
     // Loga o usuário após o cadastro
     return login(newUser.email, newUser.passwordHash);
+};
+
+/**
+ * Persiste a atualização de um usuário (Nome, Email, Role). (NOVO)
+ * @param {string} userId - ID do usuário a ser atualizado.
+ * @param {object} data - Dados a serem atualizados (ex: { name: 'New Name', role: 'admin' }).
+ * @returns {User|null} O usuário atualizado ou null.
+ */
+const updateUser = (userId, data) => {
+    const users = getAllUsers();
+    const index = users.findIndex(u => u.id === userId);
+
+    if (index === -1) return null;
+
+    const userToUpdate = users[index];
+    // Atualiza apenas os campos permitidos
+    userToUpdate.name = data.name || userToUpdate.name;
+    userToUpdate.email = data.email || userToUpdate.email;
+    userToUpdate.role = data.role || userToUpdate.role;
+    // Garante a coerência do flag isAdmin
+    userToUpdate.isAdmin = (userToUpdate.role === 'admin'); 
+    
+    // Se o usuário logado for o que está sendo atualizado, atualiza a sessão.
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.id === userId) {
+        StorageService.set(SESSION_STORAGE_KEY, userToUpdate.getPublicData()); 
+    }
+
+    saveAllUsers(users);
+    return userToUpdate;
+};
+
+/**
+ * Exclui um usuário do sistema (local storage). (NOVO)
+ * @param {string} userId - ID do usuário a ser excluído.
+ * @returns {boolean} True se a exclusão foi bem-sucedida, false caso contrário.
+ */
+const deleteUser = (userId) => {
+    let users = getAllUsers();
+    const initialLength = users.length;
+    
+    const updatedUsers = users.filter(u => u.id !== userId);
+    
+    if (updatedUsers.length < initialLength) {
+        saveAllUsers(updatedUsers);
+        
+        // Verifica se o usuário excluído era o logado e desloga (Ação de segurança, embora o front previna o auto-delete)
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.id === userId) {
+            logout();
+        }
+        return true;
+    }
+    return false;
 };
 
 /**
@@ -141,5 +211,8 @@ export const AuthService = {
     register,
     logout,
     logoutAndRedirect,
-    getCurrentUser
+    getCurrentUser,
+    getAllUsers,
+    updateUser,  
+    deleteUser
 };

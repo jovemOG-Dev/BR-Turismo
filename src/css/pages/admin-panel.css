@@ -22,3 +22,119 @@
 #panel-sidebar #logout-btn:hover {
     background-color: color-mix(in srgb, var(--color-danger) 85%, black);
 }
+
+.status-active {
+    background-color: #0f94d1;
+    color: var(--color-text-primary);
+}
+
+/* ========================================================= */
+/* 5. Estilos Específicos para Formulários (Pacotes) */
+/* ========================================================= */
+
+/* 5.1 Estilo do Cabeçalho do Formulário (Título e Botão Voltar) */
+/* Esta regra assume que você envolveu o <h2> e o <a href="#"> em uma div com a classe form-header-actions */
+.form-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    gap: var(--space-md);
+    flex-wrap: wrap; /* Garante que o botão vá para a linha de baixo em mobile, se necessário */
+}
+
+.form-header-actions .section-title {
+    margin-bottom: 0; /* Remove a margem inferior do H2 */
+}
+
+
+/* 5.2 Estilo do Container Principal do Formulário */
+#package-form,
+.form-component { 
+    background-color: var(--color-white);
+    padding: var(--space-xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+
+/* 5.3 Layout de Grid dos Campos (Substituindo o antigo .package-form) */
+.form-grid { 
+    display: grid;
+    /* Padrão Mobile: 1 coluna */
+    grid-template-columns: 1fr; 
+    gap: var(--space-lg);
+}
+
+
+/* 5.4 Estilo para cada grupo de label + input (Usando a classe .input-group) */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* Estilo de Inputs, Selects e Textareas */
+.form-component input:not([type="checkbox"]), 
+.form-component select, 
+.form-component textarea {
+    padding: var(--space-md);
+    border: 1px solid #cdcfd1;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    width: 100%; 
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-component input:focus, 
+.form-component select:focus, 
+.form-component textarea:focus {
+    outline: none;
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-primary) 30%, transparent);
+}
+
+.form-component label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+}
+
+.form-component textarea {
+    resize: vertical; 
+    min-height: 100px;
+}
+
+/* Estilo para o disclaimer de campos obrigatórios */
+.disclaimer-text {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-md);
+}
+
+/* ========================================================= */
+/* Layout Desktop (min-width: 768px) */
+/* ========================================================= */
+@media (min-width: 768px) {
+    
+    /* Layout de duas colunas para campos não full-width */
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Faz o campo (input-group) e suas ações (form-actions) ocuparem a largura total */
+    .input-group.full-width {
+        grid-column: 1 / -1; 
+    }
+    
+    /* Estilo para a barra de botões */
+    .form-actions {
+        grid-column: 1 / -1; 
+        display: flex;
+        justify-content: flex-end; 
+        gap: var(--space-md);
+        padding-top: var(--space-md);
+    }
+}
