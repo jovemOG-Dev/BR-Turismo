@@ -8,10 +8,6 @@
 /* Estilos de badge e tabela já estão definidos no user-panel.css */
 
 /* Estilos adicionais para botões de ação críticas */
-.header-actions {
-    display: flex;
-    justify-content: flex-start;
-}
 
 #panel-sidebar #logout-btn {
     background-color: var(--color-danger);
@@ -112,6 +108,53 @@
     font-size: var(--font-size-small);
     color: var(--color-text-secondary);
     margin-top: var(--space-md);
+}
+
+/* ========================================================= */
+/* 6. Estilos para Botões de Ação em Listagens (Tabelas) */
+/* Padronização para renderPackageManagement e renderUserManagement */
+/* ========================================================= */
+
+/* Garante espaço suficiente para os botões na célula da tabela (Mobile/Desktop) */
+.data-table td[data-label="Ações"] {
+    min-width: 140px; 
+}
+
+/* Container para os botões dentro da célula de Ações */
+/* ATENÇÃO: É necessário envolver os botões (Editar/Excluir) na função JS com a classe .action-buttons-group */
+.action-buttons-group {
+    display: grid;
+    gap: var(--space-xs); /* Espaçamento pequeno entre botões */
+    flex-wrap: wrap; /* Permite quebra de linha em telas muito pequenas */
+    justify-content: center; /* Centraliza botões */
+}
+
+/* Estilo para garantir que os botões dentro das tabelas fiquem compactos */
+.data-table .btn {
+    padding: var(--space-xs) var(--space-md); /* Menos padding vertical que o padrão */
+    font-size: var(--font-size-small); /* Reduz o tamanho da fonte */
+    font-weight: 500;
+    width: 80px;
+}
+
+/* Sobrescreve .btn-secondary para dar destaque visual ao botão de Edição (Ação mais comum) */
+.data-table .btn-secondary {
+    /* CORREÇÃO: Usar a cor primária da marca para editar (melhor contraste) */
+    color: var(--color-white);
+    background-color: var(--color-brand-primary);
+    border-color: var(--color-brand-primary);
+}
+
+.data-table .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--color-brand-primary) 85%, black);
+    border-color: color-mix(in srgb, var(--color-brand-primary) 85%, black);
+}
+
+/* Mantém o .btn-danger em vermelho para a Exclusão (Ação crítica) */
+.data-table .btn-danger {
+    color: var(--color-white);
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
 }
 
 /* ========================================================= */
