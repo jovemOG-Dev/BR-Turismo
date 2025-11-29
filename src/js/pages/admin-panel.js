@@ -267,10 +267,11 @@ const renderPackageManagement = () => {
                 <td data-label="Preço">${formattedPrice}</td>
                 <td data-label="Status"><span class="status-badge ${statusClass}">${pkg.status}</span></td>
                 <td data-label="Ações">
-                    <button class="btn btn-secondary btn-sm" data-action="edit-pkg" data-id="${pkg.id}">Editar</button>
-                    <button class="btn btn-danger btn-sm" data-action="delete-pkg" data-id="${pkg.id}">Excluir</button>
-                </td>
-            </tr>
+    <div class="action-buttons-group">
+        <button class="btn btn-secondary btn-sm" data-action="edit-pkg" data-id="${pkg.id}">Editar</button>
+        <button class="btn btn-danger btn-sm" data-action="delete-pkg" data-id="${pkg.id}">Excluir</button>
+    </div>
+ </td>
         `;
     }).join('');
 
@@ -333,10 +334,11 @@ const renderUserManagement = (adminUser) => {
                 <td data-label="Email">${user.email}</td>
                 <td data-label="Perfil">${user.role}</td>
                 <td data-label="Ações">
-                    <button class="btn btn-secondary btn-sm" data-action="edit-user" data-id="${user.id}">Editar</button>
-                    <button class="btn btn-danger btn-sm" data-action="delete-user" data-id="${user.id}">Excluir</button>
+                    <div class="action-buttons-group">
+                        <button class="btn btn-secondary btn-sm" data-action="edit-user" data-id="${user.id}">Editar</button>
+                        <button class="btn btn-danger btn-sm" data-action="delete-user" data-id="${user.id}">Excluir</button>
+                    </div>
                 </td>
-            </tr>
         `;
     }).join('');
 
