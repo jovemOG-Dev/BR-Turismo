@@ -18,6 +18,7 @@ const CART_STORAGE_KEY = StorageService.KEYS.CART;
  * // Detalhes mock adicionais para renderização (não persistiriam em um backend real)
  * @property {string} title
  * @property {string} imageUrl
+ * @property {string} location
  */
 
 /**
@@ -84,7 +85,7 @@ const calculateSubtotal = () => {
  * 6. Limpa completamente o carrinho.
  */
 const clearCart = () => {
-    StorageService.remove(CART_STORAGE_KEY);
+    saveCartItems([]);
 };
 
 

@@ -125,6 +125,19 @@ const handlePackageFormSubmit = (e, packageId) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    const processTextAreaToArray = (text) => {
+        // Converte a string de textarea em um array, usando quebras de linha como delimitador
+        return text ? text.split('\n').map(item => item.trim()).filter(item => item.length > 0) : [];
+    };
+
+    data.details = {
+        inclusions: processTextAreaToArray(data.inclusions),
+        itinerary: processTextAreaToArray(data.itinerary)
+    };
+    // Remove as chaves originais do FormData para evitar duplicidade ou conflito
+    delete data.inclusions;
+    delete data.itinerary;
+
     // 1. Validação
     const { isValid, errors } = Validator.validatePackage(data);
     displayFormErrors(form, errors);
@@ -171,17 +184,23 @@ const renderCreatePackageForm = (packageData = null) => {
     const formattedRating = isEditMode ? packageData.rating : '5.0';
     const packageStatus = packageData?.status || 'Ativo';
 
+    const inclusionsText = packageData?.details?.inclusions ? packageData.details.inclusions.join('\n') : '';
+    const itineraryText = packageData?.details?.itinerary ? packageData.details.itinerary.join('\n') : '';
+
+    const detailsDescriptionText = packageData?.detailsDescription || '';
+    const shortDescriptionText = packageData?.description || '';
+
     // Remove a classe 'active' de todos os itens de navegação ao entrar no formulário
     navLinks.forEach(link => link.classList.remove('active'));
 
 
     mainContent.innerHTML = `
         <div class="form-header-actions"> 
-        <h2 class="section-title">${formTitle}</h2>
-        <a href="#" class="btn btn-secondary btn-sm" data-action="back-to-packages">← Voltar à Lista</a>
-    </div>
+            <h2 class="section-title">${formTitle}</h2>
+            <a href="#" class="btn btn-secondary btn-sm" data-action="back-to-packages">← Voltar à Lista</a>
+        </div>
 
-    <form id="package-form" class="form-component" style="margin-top: var(--space-xl);">
+        <form id="package-form" class="form-component" style="margin-top: var(--space-xl);">
             ${isEditMode ? `<input type="hidden" id="package-id" name="packageId" value="${packageData.id}">` : ''}
 
             <div class="form-grid">
@@ -220,15 +239,31 @@ const renderCreatePackageForm = (packageData = null) => {
                 </div>
 
                 <div class="input-group full-width">
-                    <label for="description">Descrição Detalhada *</label>
+                    <label for="description">Descrição breve *</label>
                     <textarea id="description" name="description" rows="4" required maxlength="500">${packageData?.description || ''}</textarea>
                 </div>
-            </div>
+
+                <h3 class="full-width" style="margin-top: 1.5rem; border-bottom: 1px solid var(--color-light-gray); padding-bottom: 0.5rem;">Detalhes do Pacote</h3>
+
+                <div class="input-group full-width">
+                    <label for="inclusions">Inclusões (Uma por linha)</label>
+                    <textarea id="inclusions" name="inclusions" rows="4" placeholder="Ex:&#10;- Aéreo de ida e volta&#10;- 7 noites de hospedagem">${inclusionsText}</textarea>
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="itinerary">Itinerário (Uma atividade por linha)</label>
+                    <textarea id="itinerary" name="itinerary" rows="6" placeholder="Ex:&#10;Dia 1: Chegada e check-in&#10;Dia 2: Passeio na Praia do Forte">${itineraryText}</textarea>
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="detailsDescription">Descrição Detalhada (Página de Detalhes) *</label>
+                    <textarea id="detailsDescription" name="detailsDescription" rows="6" required maxlength="1000">${detailsDescriptionText}</textarea>
+                </div>
             
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-lg">${submitButtonText}</button>
             </div>
-            <p class="disclaimer-text">* Campos obrigatórios.</p>
+            <p class="disclaimer-text">* Campos obrigatórios (exceto detalhes, que podem ser vazios).</p>
         </form>
     `;
 
