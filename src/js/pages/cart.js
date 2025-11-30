@@ -8,6 +8,7 @@ import { CartService } from '../services/cart.js';
 // Elementos DOM
 const cartItemsContainer = document.getElementById('cart-items-container');
 const cartSubtotalElement = document.getElementById('cart-subtotal');
+const cartTotalElement = document.getElementById('cart-total');
 const checkoutBtn = document.getElementById('checkout-btn');
 const emptyCartMessage = document.getElementById('empty-cart-message');
 
@@ -17,9 +18,15 @@ const emptyCartMessage = document.getElementById('empty-cart-message');
  * @returns {string} HTML do item
  */
 const renderCartItem = (item) => {
-    const itemTotal = (item.pricePerTraveler * item.travelers);
-    const formattedPrice = item.pricePerTraveler.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const itemPricePerTraveler = item.pricePerTraveler || 0;
+    const itemTravelers = item.travelers || 0;
+    const itemTotal = (itemPricePerTraveler * itemTravelers);
+    
+    // Formatação de moeda e data para PT-BR
+    const formattedPrice = itemPricePerTraveler.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const formattedTotal = itemTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    // Assume o formato AAAA-MM-DD e formata para dd/mm/aaaa
+    const formattedDate = new Date(item.date).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' }); 
 
     return `
         <div class="cart-item" data-item-id="${item.id}">
@@ -28,17 +35,18 @@ const renderCartItem = (item) => {
             </div>
             <div class="item-details">
                 <h3><a href="/details.html?id=${item.packageId}">${item.title}</a></h3>
-                <p class="item-metadata">Viagem em: <span>${item.date}</span></p>
-                <p class="item-metadata">Pessoas: <span>${item.travelers}</span></p>
-            </div>
-            <div class="item-pricing">
-                <p class="price-per-person">${formattedPrice} p/pessoa</p>
-                <p class="item-total-price">Total: <strong>${formattedTotal}</strong></p>
-            </div>
-            <div class="item-actions">
-                <button class="btn btn-danger btn-sm remove-item-btn" data-item-id="${item.id}" aria-label="Remover item do carrinho">
+                <p class="item-meta">Destino: ${item.location || 'Não especificado'}</p>
+                <p class="item-meta">Viagem em: ${formattedDate}</p>
+                <p class="item-meta">Viajantes: ${itemTravelers}</p>
+                <p class="item-meta">Preço p/ pessoa: ${formattedPrice}</p>
+                
+                <button class="btn btn-danger btn-sm remove-item-btn" data-item-id="${item.id}">
                     Remover
                 </button>
+            </div>
+            <div class="item-price">
+                <p class="total-label">Subtotal Item:</p>
+                <p class="total-value">${formattedTotal}</p>
             </div>
         </div>
     `;
@@ -47,9 +55,34 @@ const renderCartItem = (item) => {
 /**
  * 2. Renderiza a lista completa e o subtotal.
  */
-const renderCart = () => {
+export const renderCart = () => {
     const items = CartService.getCartItems();
     const subtotal = CartService.calculateSubtotal();
+
+    if (!cartItemsContainer || !cartSubtotalElement) {
+        // Sai se os elementos DOM não existirem (pode estar sendo chamado em outra página)
+        return; 
+    }
+
+    const formattedSubtotal = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    // 1. Atualiza o Subtotal
+    if (cartSubtotalElement) {
+        cartSubtotalElement.textContent = formattedSubtotal;
+    }
+
+    // 2. CORREÇÃO: Atualiza o Total (que é o mesmo valor do subtotal por enquanto)
+    if (cartTotalElement) {
+        cartTotalElement.textContent = formattedSubtotal;
+    }
+
+    // Habilita o botão de checkout se houver itens
+    if (checkoutBtn) {
+        checkoutBtn.disabled = items.length === 0;
+    }
+
+    // Anexa os listeners
+    attachEventListeners();
 
     if (items.length === 0) {
         cartItemsContainer.innerHTML = '';
@@ -57,15 +90,20 @@ const renderCart = () => {
         checkoutBtn.disabled = true;
     } else {
         emptyCartMessage.style.display = 'none';
-        cartItemsContainer.innerHTML = items.map(renderCartItem).join('');
         checkoutBtn.disabled = false;
-    }
-
-    // Atualiza o subtotal na sidebar
-    if (cartSubtotalElement) {
-        cartSubtotalElement.textContent = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        // Renderiza todos os itens na lista
+        cartItemsContainer.innerHTML = items.map(renderCartItem).join('');
     }
     
+    // Atualiza o subtotal no resumo
+    if (cartSubtotalElement) {
+        cartSubtotalElement.textContent = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    } else {
+        console.error("Elemento DOM com ID 'cart-subtotal' não encontrado em cart.html!");
+    }
+    
+    // Anexa os listeners (principalmente o botão "Remover")
     attachEventListeners();
 };
 
@@ -73,13 +111,9 @@ const renderCart = () => {
  * 3. Anexa listeners de eventos (Remover Item)
  */
 const attachEventListeners = () => {
-    // Remove listeners anteriores para evitar duplicação
+    // Remove listeners anteriores para evitar duplicação (importante após re-renderização)
     document.querySelectorAll('.remove-item-btn').forEach(button => {
         button.removeEventListener('click', handleRemoveItem);
-    });
-
-    // Adiciona o listener para todos os botões de remoção
-    document.querySelectorAll('.remove-item-btn').forEach(button => {
         button.addEventListener('click', handleRemoveItem);
     });
     
@@ -94,6 +128,7 @@ const attachEventListeners = () => {
  * 4. Handler para remover um item.
  */
 function handleRemoveItem(event) {
+    // O ID do item está armazenado no data-item-id do botão
     const itemId = event.currentTarget.dataset.itemId;
     if (confirm("Tem certeza que deseja remover este pacote do carrinho?")) {
         CartService.removeItem(itemId);
@@ -110,9 +145,8 @@ function handleCheckout() {
 }
 
 /**
- * 6. Função de inicialização do módulo.
+ * 6. Função de inicialização do módulo (Chamada a partir do cart.html).
  */
 export const initCartPage = () => {
-    // Renderiza a primeira vez ao carregar a página
     renderCart();
 };
