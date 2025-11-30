@@ -99,6 +99,14 @@
     color: var(--color-text-secondary);
 }
 
+.form-group-grid {
+    margin-top: 7px;
+    display: grid;
+    /* Divide em duas colunas de largura igual por padrão */
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; /* Espaçamento entre os campos */
+    margin-bottom: 15px;
+}
 
 /* ========================================================= */
 /* 3. Layout Desktop (min-width: 992px) */

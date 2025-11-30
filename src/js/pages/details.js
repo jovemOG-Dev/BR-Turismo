@@ -32,7 +32,7 @@ const renderPackageDetails = (pkg) => {
 
     const combinedListItems = [
         // Seções de Inclusão
-        ...(pkg.details?.inclusions?.length > 0 ? [`<li class="list-title"><strong>✅ O que está incluído:</strong></li>`] : []),
+        ...(pkg.details?.inclusions?.length > 0 ? [`<li class="list-title"><strong>✅ O que está incluso:</strong></li>`] : []),
         ...(pkg.details?.inclusions || []).map(item => `<li>${item}</li>`),
 
         // Seções de Roteiro
@@ -93,13 +93,33 @@ const renderPackageDetails = (pkg) => {
                                 <span id="package-price" class="price-highlight">${pkg.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                             </div>
 
-                            <div class="form-group">
-                                <label for="departure-date">Data da Viagem:</label>
-                                <input type="date" id="departure-date" required>
+                            <div class="form-group-grid">
+                                <div class="form-group">
+                                    <label for="checkin-date">Check-in:</label>
+                                    <input type="date" id="checkin-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkout-date">Check-out:</label>
+                                    <input type="date" id="checkout-date" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="travelers-count">Número de Viajantes:</label>
-                                <input type="number" id="travelers-count" min="1" value="1" required>
+                            
+                            <div class="travelers-fields" style="margin-top: 15px;">
+                                <h4>Viajantes e Quartos</h4>
+                                <div class="form-group-grid">
+                                    <div class="form-group">
+                                        <label for="travelers-adults">Adultos (1+):</label>
+                                        <input type="number" id="travelers-adults" min="1" max="99" value="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="travelers-children">Crianças (0-4):</label>
+                                        <input type="number" id="travelers-children" min="0" max="4" value="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rooms-count">Quartos (1-4):</label>
+                                        <input type="number" id="rooms-count" min="1" max="4" value="1" required>
+                                    </div>
+                                </div>
                             </div>
 
                             <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$ 0,00</strong></p>
@@ -126,26 +146,59 @@ const renderPackageDetails = (pkg) => {
     const travelersInput = document.getElementById('travelers-count');
     const dateInput = document.getElementById('departure-date');
     
+    const adultsInput = document.getElementById('travelers-adults'); 
+    const childrenInput = document.getElementById('travelers-children'); 
+    const roomsInput = document.getElementById('rooms-count'); 
+    const checkinInput = document.getElementById('checkin-date'); 
+    const checkoutInput = document.getElementById('checkout-date');
+
     /**
      * LÓGICA: Atualiza o preço total estimado.
      */
     const updatePrice = () => {
-        const travelers = parseInt(travelersInput.value) || 1;
-        const total = pkg.price * travelers;
+        const adults = parseInt(adultsInput.value) || 1;
+        const children = parseInt(childrenInput.value) || 0;
+        const totalTravelers = adults + children; // Total de viajantes para cálculo
+        
+        const total = pkg.price * totalTravelers;
         document.getElementById('total-estimated-price').textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
-
     /**
      * LÓGICA: Valida e habilita o botão de adicionar ao carrinho.
      * O botão só é habilitado se houver data e N° de viajantes > 0.
      */
     const checkFormValidity = () => {
-        const dateIsValid = dateInput.value !== '';
-        const travelers = parseInt(travelersInput.value);
-        const travelersIsValid = travelers && travelers >= 1;
+        const checkinDate = checkinInput.value;
+        const checkoutDate = checkoutInput.value;
         
-        addToCartBtn.disabled = !(dateIsValid && travelersIsValid);
+        const checkinIsValid = checkinDate !== '';
+        const checkoutIsValid = checkoutDate !== '';
+
+        // 1. Validação de Data: Check-out deve ser estritamente após Check-in
+        let datesAreValid = false;
+        if (checkinIsValid && checkoutIsValid) {
+            datesAreValid = new Date(checkoutDate) > new Date(checkinDate);
+        }
+
+        // 2. Validação de Viajantes/Quartos: Min 1 adulto e min 1 quarto
+        const adults = parseInt(adultsInput.value);
+        const rooms = parseInt(roomsInput.value);
+        const travelersAndRoomsAreValid = adults >= 1 && rooms >= 1;
+        
+        const isValid = datesAreValid && travelersAndRoomsAreValid;
+
+        addToCartBtn.disabled = !isValid;
         addToCartBtn.textContent = addToCartBtn.disabled ? 'Preencha os dados' : 'Adicionar ao Carrinho';
+        
+        const statusMessage = document.getElementById('status-message');
+        
+        // Exibir erro específico
+        if (checkinIsValid && checkoutIsValid && !datesAreValid) {
+            statusMessage.style.color = 'var(--color-danger)';
+            statusMessage.textContent = '❌ Check-out deve ser após Check-in.';
+        } else {
+            statusMessage.textContent = ''; // Limpa a mensagem se estiver válido ou incompleto
+        }
     };
 
     /**
@@ -154,11 +207,17 @@ const renderPackageDetails = (pkg) => {
     const handleAddToCart = (e) => {
         e.preventDefault();
         
-        const travelers = parseInt(travelersInput.value);
-        const date = dateInput.value;
+        if (addToCartBtn.disabled) return; // Evita submissão se o botão estiver desabilitado
+
+        const adults = parseInt(adultsInput.value);
+        const children = parseInt(childrenInput.value);
+        const rooms = parseInt(roomsInput.value);
+        const checkinDate = checkinInput.value; 
+        const checkoutDate = checkoutInput.value; 
         const statusMessage = document.getElementById('status-message');
 
         if (pkg.status !== 'Ativo') {
+            statusMessage.style.color = 'var(--color-danger)';
             document.getElementById('status-message').textContent = 'Este pacote não está disponível para reserva no momento.';
             return;
         }
@@ -171,9 +230,16 @@ const renderPackageDetails = (pkg) => {
                 title: pkg.title,
                 location: pkg.location,
                 imageUrl: pkg.imageUrl,
-                date: date,                
-                pricePerTraveler: pkg.price, // Preço por pessoa (do objeto Package)
-                travelers: travelers,
+                
+                // NOVOS DADOS DE RESERVA
+                checkinDate: checkinDate, 
+                checkoutDate: checkoutDate,
+                adults: adults,
+                children: children,
+                rooms: rooms,
+                
+                pricePerTraveler: pkg.price,
+                travelers: adults + children, // Total de viajantes para cálculo
             };
             
             CartService.addItem(cartItemDetails);
@@ -195,16 +261,23 @@ const renderPackageDetails = (pkg) => {
     };
     
     // Configura Listeners de Evento
-    travelersInput.addEventListener('input', updatePrice);
-    travelersInput.addEventListener('input', checkFormValidity);
-    dateInput.addEventListener('change', checkFormValidity);
+    adultsInput.addEventListener('input', updatePrice);
+    adultsInput.addEventListener('input', checkFormValidity);
+    childrenInput.addEventListener('input', updatePrice);
+    childrenInput.addEventListener('input', checkFormValidity);
+    roomsInput.addEventListener('input', checkFormValidity); 
+    checkinInput.addEventListener('change', checkFormValidity);
+    checkoutInput.addEventListener('change', checkFormValidity);
     bookingForm.addEventListener('submit', handleAddToCart);
     
     // Inicializa o estado do formulário:
     // 1. Garante que o input de data comece a partir de hoje
-    dateInput.min = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    checkinInput.min = today;
+    checkoutInput.min = today;
     // 2. Verifica a validade inicial
     checkFormValidity();
+    updatePrice();
 };
 
 
