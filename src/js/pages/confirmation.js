@@ -37,7 +37,7 @@ export const initConfirmationPage = () => {
         
         <div class="action-buttons">
             <a href="results.html" class="btn btn-secondary btn-lg">Continuar Comprando</a>
-            ${user ? `<a href="user-panel.html" class="btn btn-primary btn-lg">Acessar Meu Painel</a>` : ''}
+            ${user ? `<a href="./user-panel.html" class="btn btn-primary btn-lg">Acessar Meu Painel</a>` : ''}
         </div>
     `;
 };
