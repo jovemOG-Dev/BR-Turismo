@@ -69,7 +69,7 @@ Para rodar o projeto em sua máquina:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [Link do Repositório do GitHub]
+    git clone https://github.com/jovemOG-Dev/BR-Turismo.git
     cd br-turismo
     ```
 2.  **Abra com Servidor Local:**
