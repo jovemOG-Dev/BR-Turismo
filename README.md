@@ -1,6 +1,6 @@
 # BR-Turismo - Agência de Viagens (MVP Estático)
 
-## Sobre o Projeto
+## ✈️ Sobre o Projeto
 
 O **BR-Turismo** é um projeto de simulação de uma aplicação web de agência de viagens, desenvolvido para a disciplina de **Programação Web** do curso de Análise e Desenvolvimento de Sistemas do **SENAC**.
 
@@ -17,7 +17,7 @@ O objetivo principal foi aplicar conceitos de **arquitetura de software web** e 
 | Papel | Projeto | Desenvolvedor(a) |
 | :---: | :--- | :--- |
 | **Cliente** | **CorinthiansCult** | **@lima-gabr** |
-| **Acesso** | [https://lima-gabr.github.io/CorinthiansCult/] | [Link para o Perfil do GitHub da Dupla] |
+| **Acesso** | https://lima-gabr.github.io/CorinthiansCult/ | https://github.com/lima-gabr |
 
 ---
 
@@ -29,7 +29,7 @@ O projeto está hospedado e pode ser acessado em: **[Link do GitHub Pages do seu
 
 ---
 
-## Especificações Técnicas e Arquitetura
+## 🛠️ Especificações Técnicas e Arquitetura
 
 O projeto BR-Turismo é construído com foco em **modularidade** e **organização**, seguindo o princípio de *Separation of Concerns* (Separação de Preocupações).
 
@@ -63,7 +63,7 @@ A persistência de dados é **simulada** utilizando a API `Web Storage` do naveg
 
 ---
 
-## Como Executar Localmente
+## 🚀 Como Executar Localmente
 
 Para rodar o projeto em sua máquina:
 
