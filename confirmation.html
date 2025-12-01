@@ -87,10 +87,12 @@
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
         import { initConfirmationPage } from './src/js/pages/confirmation.js';
-        
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
+
         document.addEventListener('DOMContentLoaded', () => {
             setupMenuToggle();      
             initConfirmationPage();         // Inicia a renderização e lógica de confirmação
+            initHeaderAuth();               // Inicializa o estado de autenticação no cabeçalho
         });
     </script>
 </body>

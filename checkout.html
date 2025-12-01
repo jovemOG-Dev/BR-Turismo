@@ -166,10 +166,12 @@
     <script type="module">
         import { setupMenuToggle } from './src/js/components/menu-toggle.js'; 
         import { initCheckoutPage } from './src/js/pages/checkout.js';
+        import { initHeaderAuth } from './src/js/components/header-auth.js'; 
         
         document.addEventListener('DOMContentLoaded', () => {
             setupMenuToggle();      
             initCheckoutPage();         // Inicia a renderização e lógica do checkout
+            initHeaderAuth();           // Inicializa o estado de autenticação no cabeçalho
         });
     </script>
 </body>
