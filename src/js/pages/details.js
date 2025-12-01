@@ -250,7 +250,7 @@ const renderPackageDetails = (pkg) => {
             
             // Redireciona para o carrinho após um pequeno atraso
             setTimeout(() => {
-                window.location.href = '/cart.html';
+                window.location.href = 'cart.html';
             }, 800);
 
         } catch (error) {

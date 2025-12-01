@@ -141,7 +141,7 @@ function handleRemoveItem(event) {
  */
 function handleCheckout() {
     alert("Iniciando o Checkout! Você será redirecionado para a página de Pagamento e Dados. (Simulação)");
-    window.location.href = '/checkout.html';
+    window.location.href = 'checkout.html';
 }
 
 /**

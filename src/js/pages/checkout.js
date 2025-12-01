@@ -106,7 +106,7 @@ const handleSubmit = (e) => {
     setTimeout(() => {
         alert("SUCESSO! Pedido Finalizado (Simulação). Você será redirecionado.");
         // Redireciona para o índice ou uma página de confirmação
-        window.location.href = '/index.html'; 
+        window.location.href = 'confirmation.html'; 
     }, 1500);
 
     // Desabilita o botão para evitar cliques duplos
