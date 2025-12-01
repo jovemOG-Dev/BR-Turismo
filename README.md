@@ -14,7 +14,7 @@ O objetivo principal foi aplicar conceitos de **arquitetura de software web** e 
 
 **Confira o projeto desenvolvido pela minha dupla, onde atuei como Cliente:**
 
-| Papel | Projeto | Desenvolvedor(a) |
+| Papel | Projeto | Desenvolvedor |
 | :---: | :--- | :--- |
 | **Cliente** | **CorinthiansCult** | **@lima-gabr** |
 | **Acesso** | https://lima-gabr.github.io/CorinthiansCult/ | https://github.com/lima-gabr |
