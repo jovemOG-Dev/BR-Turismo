@@ -25,7 +25,7 @@ O objetivo principal foi aplicar conceitos de **arquitetura de software web** e 
 
 O projeto é um **MVP (Minimum Viable Product)** estático, com autenticação, carrinho de compras e CRUD (leitura/escrita) simulados.
 
-O projeto está hospedado e pode ser acessado em: **[Link do GitHub Pages do seu Projeto]**
+O projeto está hospedado e pode ser acessado em: **https://jovemog-dev.github.io/BR-Turismo/**
 
 ---
 
