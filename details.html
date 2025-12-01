@@ -43,77 +43,12 @@
     </header>
 
     <main id="package-details-main">
-        <div class="container package-details-layout">
-            <section id="package-info" aria-labelledby="package-title">
-
-                <div class="details-header">
-                    <h1 id="package-title">Carregando Pacote...</h1>
-                    <div id="package-rating" class="rating-display"></div>
-                </div>
-
-                <div class="details-content-wrapper">
-
-                    <article id="package-content" class="package-main-info">
-
-                        <h2>Sobre o Destino e o Pacote</h2>
-                        <p id="package-description" class="lead-description">
-                            Detalhes do pacote e informações sobre o destino...
-                        </p>
-
-                        <h3>Inclusões e Roteiro</h3>
-                        <ul id="package-inclusions" class="feature-list">
-                            <li>Aéreo de Ida e Volta (Simulado)</li>
-                            <li>3 Noites de Hospedagem (Simulado)</li>
-                            <li>Café da Manhã Incluído</li>
-                        </ul>
-
-                        <div class="main-image-wrapper">
-                            <img id="package-main-image" src="" alt="Imagem de Destino" width="1000" height="600"
-                                loading="eager">
-                        </div>
-
-                        <h3>Avaliações de Clientes (Mock)</h3>
-                        <div id="customer-reviews">
-                            <p>⭐⭐⭐⭐⭐ "Viagem inesquecível! Recomendo." - Cliente A</p>
-                            <p>⭐⭐⭐⭐☆ "Hotel bom, mas o aéreo atrasou um pouco." - Cliente B</p>
-                        </div>
-                    </article>
-
-                    <aside id="booking-sidebar" class="booking-aside" aria-label="Opções de Reserva">
-                        <h3>Reserve seu Pacote</h3>
-
-                        <form id="booking-form">
-                            <div class="price-box">
-                                <p class="starting-price">Preço por pessoa a partir de:</p>
-                                <span id="package-price" class="price-highlight">R$ 0,00</span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="booking-date">Data da Viagem:</label>
-                                <input type="date" id="booking-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="travelers-count">Número de Viajantes:</label>
-                                <input type="number" id="travelers-count" min="1" value="1" required>
-                            </div>
-
-                            <p class="final-price-summary">Total Estimado: <strong id="total-estimated-price">R$
-                                    0,00</strong></p>
-
-                            <button type="submit" id="add-to-cart-btn" class="btn btn-primary btn-lg btn-block">
-                                Finalizar Reserva
-                            </button>
-
-                            <p class="disclaimer-text">
-                                ⚠️ Reserva simulada. Nenhum pagamento real será processado.
-                            </p>
-                        </form>
-                    </aside>
-                </div>
-
-            </section>
+        <div class="container" style="text-align: center; padding: 50px;">
+            <h2 class="loading-message">Carregando detalhes do pacote...</h2>
+            <div class="loading-spinner" style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+            <p>Buscando informações da viagem.</p>
         </div>
-    </main>
+        </main>
 
     <footer class="footer-component">
         <div class="container">
